@@ -1,6 +1,7 @@
 import Header from '../components/Header/Header'
 import TripCard from '../components/TripCard/TripCard'
 import Widgets from '../components/Widgets/Widgets'
+import './TripsPage.css'
 
 const mockTrips = [
     { id: 1, title: 'birthday trip', city: 'Paris', country: 'France', start_date: 'may 8', end_date: 'may 16, 2026', total_spent: 100, total_budget: 500, color: '#C8C0F0' },

@@ -1,0 +1,73 @@
+.welcome-text {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+    margin: 20px 0 8px 0;
+}
+
+.trips-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 34px 0;
+}
+
+.trips-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.trips-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-dark);
+    line-height: 1;
+}
+
+.filter-pills {
+    display: flex;
+    gap: 8px;
+    padding-top: 8px;
+}
+
+.pill {
+    border: var(--border);
+    background: var(--white);
+    border-radius: var(--radius-pill);
+    padding: 6px 16px;
+    font-size: var(--font-size-base);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--purple-muted);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+}
+
+.pill.active {
+    background: var(--purple-light);
+    color: var(--purple-main);
+}
+
+.btn-plan {
+    background: var(--purple-main);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-btn);
+    padding: 8px 16px;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+}
+
+.trips-list {
+    display: flex;
+    gap: 26px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scrollbar-width: none;
+}
+
+.trips-list::-webkit-scrollbar {
+    display: none;
+}
