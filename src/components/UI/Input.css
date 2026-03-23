@@ -1,0 +1,33 @@
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.input-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+}
+
+.input-field {
+    background: var(--purple-light);
+    border: none;
+    border-radius: var(--radius-btn);
+    padding: 11px 14px;
+    font-size: var(--font-size-base);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--purple-deep);
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input-field::placeholder {
+    color: var(--purple-muted);
+}
+
+.input-field:focus {
+    box-shadow: 0 0 0 1px rgba(127, 119, 221, 0.25);
+}

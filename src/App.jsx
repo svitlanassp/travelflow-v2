@@ -1,7 +1,18 @@
 import TripsPage from './pages/TripsPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 
+
+// function App() {
+//   return <TripsPage />
+// }
 function App() {
-  return <TripsPage />
+  return <LoginPage />
 }
 
+
+
+
+
 export default App
+
