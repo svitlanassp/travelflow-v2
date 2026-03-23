@@ -39,6 +39,18 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
     cursor: pointer;
     margin-bottom: 16px;
+
+    transition: all 0.3s ease; 
+    cursor: pointer;
+}
+
+.btn-go:hover {
+    transform: translateY(-0.5px);
+    filter: brightness(1.1); 
+}
+
+.btn-go:active {
+    transform: translateY(0) scale(0.98); 
 }
 
 .auth-link {
@@ -52,4 +64,14 @@
     color: var(--purple-main);
     font-weight: var(--font-weight-bold);
     text-decoration: none;
+}
+
+.auth-error {
+    font-size: var(--font-size-sm);
+    color: #D95252;
+    font-weight: var(--font-weight-medium);
+    background: #FFF0F0;
+    border-radius: 11px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
 }
