@@ -68,9 +68,9 @@
 
 .auth-error {
     font-size: var(--font-size-sm);
-    color: #D95252;
+    color: var(--red-main);
     font-weight: var(--font-weight-medium);
-    background: #FFF0F0;
+    background: var(--red-light);
     border-radius: 11px;
     padding: 8px 12px;
     margin-bottom: 12px;

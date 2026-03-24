@@ -1,0 +1,153 @@
+.users-container {
+    display: flex;
+    justify-content: center;
+    padding: 48px 20px;
+}
+ 
+.users-card {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    border: var(--border);
+    padding: 32px 36px;
+    width: 100%;
+    max-width: 620px;
+}
+ 
+.users-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.users-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-dark);
+}
+ 
+.btn-add-user {
+    background: var(--purple-main);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-btn);
+    padding: 8px 16px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+ 
+.btn-add-user:hover {
+    transform: translateY(-0.5px);
+    filter: brightness(1.1);
+}
+ 
+.btn-add-user:active {
+    transform: translateY(0) scale(0.98);
+}
+ 
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table thead th {
+    text-align: left;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--purple-main);
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(83, 74, 183, 0.1);
+}
+ 
+.users-table thead th:last-child {
+    width: 80px;
+}
+
+.users-table thead th:nth-child(2) {
+    padding-left: 10px;
+}
+ 
+.users-table tbody tr {
+    border-bottom: 1px solid rgba(83, 74, 183, 0.06);
+    transition: background 0.15s ease;
+}
+ 
+.users-table tbody tr:last-child {
+    border-bottom: none;
+}
+ 
+.users-table tbody tr:hover {
+    background: var(--purple-light);
+    border-radius: 8px;
+}
+ 
+.users-table td {
+    padding: 16px 0;
+    font-size: var(--font-size-sm);
+    color: var(--text-dark);
+    vertical-align: middle;
+}
+
+.username-text {
+    color: var(--text-muted); 
+    font-weight: var(--font-weight-medium);
+}
+
+.role-badge {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    text-transform: lowercase;
+}
+ 
+.role-admin {
+    background: var(--purple-light);
+    color: var(--purple-main);
+}
+ 
+.role-regular {
+    background: #F0F0F0;
+    color: var(--text-muted);
+}
+
+.actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-basic); 
+}
+
+.icon-btn svg {
+    width: 16px; 
+    height: 16px;
+    transition: transform 0.2s ease, color 0.2s ease; 
+}
+
+.icon-btn--edit:hover {
+    color: var(--purple-main);
+}
+.icon-btn--edit:hover svg {
+    transform: scale(1.15); 
+}
+
+.icon-btn--delete:hover {
+    color: var(--red-main);
+}
+.icon-btn--delete:hover svg {
+    transform: scale(1.10); 
+}
