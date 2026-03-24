@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
 import { Auth } from '../../services/auth'
+import UsersIcon from '../../icons/users.svg?react' 
+import LogoutIcon from '../../icons/logout.svg?react'
 import './Header.css'
 
 function Header({ hideAvatar = false }) {
@@ -48,9 +50,15 @@ function Header({ hideAvatar = false }) {
                     {isDropdownOpen && (
                         <div className="dropdown-menu">
                             {userRole === 'admin' && (
-                                <button className="dropdown-item" onClick={() => navigate('/users')}>users</button>
+                                <button className="dropdown-item dropdown-item--users" onClick={() => navigate('/users')}>
+                                    <UsersIcon />
+                                    users
+                                </button>
                             )}
-                            <button className="dropdown-item" onClick={handleLogout}>logout</button>
+                            <button className="dropdown-item dropdown-item--logout" onClick={handleLogout}>
+                                <LogoutIcon />
+                                logout
+                            </button>
                         </div>
                     )}
                 </div>
