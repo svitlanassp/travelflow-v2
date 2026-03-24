@@ -22,7 +22,7 @@ async function request(endpoint, options = {}) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
     if (response.status === 401) {
-        Auth.logout();
+        Auth.logout(); // <--- Викликало window.location.href і перезавантажувало сторінку
         return null;
     }
 

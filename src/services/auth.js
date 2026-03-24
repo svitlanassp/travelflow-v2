@@ -19,6 +19,19 @@ export const Auth = {
 
     logout() {
         this.removeToken();
-        window.location.href = '/login';
+        this.removeRole();
     },
+
+    setRole(role) {
+        localStorage.setItem('userRole', role);
+    },
+
+    getRole() {
+        return localStorage.getItem('userRole');
+    },
+
+    removeRole() {
+        localStorage.removeItem('userRole');
+    },
+
 };

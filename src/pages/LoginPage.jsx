@@ -16,14 +16,18 @@ function LoginPage() {
 
     const handleLogin = async (e) => {
         e.preventDefault()
+        setError('');
         try {
             const data = await api.login({ username, password })
             if (data && data.access) {
                 Auth.setToken(data.access)
+                Auth.setRole(data.role)
                 navigate('/trips')
+            } else {
+            setError('invalid username or password');
             }
-        } catch {
-            setError('invalid username or password')
+        } catch(err) {
+            setError('invalid username or password');
         }
     };
 
