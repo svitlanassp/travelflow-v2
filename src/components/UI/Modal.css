@@ -1,0 +1,92 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+.modal-card {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    border: var(--border);
+    padding: 32px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.modal-text {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-secondary {
+    flex: 1;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--purple-light);
+    border-radius: var(--radius-btn);
+    padding: 12px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--purple-light);
+    color: var(--purple-main);
+    border-color: var(--purple-light);
+}
+
+.btn-danger {
+    flex: 1;
+    background: var(--red-main); 
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-btn);
+    padding: 12px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    filter: brightness(1.1);
+    transform: translateY(0) scale(0.98);
+}
+
+.btn-danger:active, .btn-secondary:active {
+    transform: translateY(0) scale(0.97);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

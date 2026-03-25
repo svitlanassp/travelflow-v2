@@ -32,7 +32,7 @@
     border: none;
     border-radius: var(--radius-btn);
     padding: 8px 16px;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     font-family: 'Plus Jakarta Sans', sans-serif;
     cursor: pointer;
@@ -40,12 +40,12 @@
 }
  
 .btn-add-user:hover {
-    transform: translateY(-0.5px);
+    transform: translateY(0) scale(1.02); 
     filter: brightness(1.1);
 }
  
 .btn-add-user:active {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(0) scale(0.97); 
 }
  
 .users-table {

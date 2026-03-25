@@ -44,4 +44,23 @@ export const api = {
         body: JSON.stringify(data),
     }),
     getUsers: () => request('/users'),
+    getUser: (id) => request(`/users/${id}/`),
+    createUser: (data) => request('/users/', { 
+        method: 'POST', 
+        body: JSON.stringify({
+            username: data.username,
+            password: data.password,
+            is_staff: data.role === 'admin'
+        }) 
+    }),
+    updateUser: (id, data) => request(`/users/${id}/`, { 
+        method: 'PUT', 
+        body: JSON.stringify({
+            username: data.username,
+            is_staff: data.role === 'admin'
+        }) 
+    }),
+    deleteUser: (id) => request(`/users/${id}/`, { 
+        method: 'DELETE' 
+    }),
 };

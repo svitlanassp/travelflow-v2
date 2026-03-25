@@ -3,12 +3,19 @@ import Header from '../components/Header/Header'
 import EditIcon from '../icons/edit.svg?react';
 import DeleteIcon from '../icons/delete.svg?react';
 import { api } from '../services/api'
+import { useNavigate } from 'react-router-dom'
 import './UsersPage.css'
+import '../components/UI/Modal.css'
  
 function UsersPage() {
     const [users, setUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
+    const navigate = useNavigate()
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [userToDelete, setUserToDelete] = useState(null)
+    const [isDeleting, setIsDeleting] = useState(false) 
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -33,6 +40,33 @@ function UsersPage() {
         fetchUsers()
     }, [])
 
+    const handleDeleteClick = (user) => {
+        setUserToDelete(user)
+        setIsModalOpen(true)
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false)
+        setUserToDelete(null)
+    }
+
+    const handleConfirmDelete = async () => {
+        if (!userToDelete) return;
+        
+        try {
+            setIsDeleting(true)
+            await api.deleteUser(userToDelete.id) 
+            
+            setUsers(prevUsers => prevUsers.filter(u => u.id !== userToDelete.id))
+            
+            handleCloseModal()
+        } catch (err) {
+            alert('failed to delete user. maybe they are immortal? 🧛')
+        } finally {
+            setIsDeleting(false)
+        }
+    }
+
     return (
         <div className="app-wrapper">
             <Header />
@@ -40,7 +74,7 @@ function UsersPage() {
                 <div className="users-card">
                     <div className="users-card-header">
                         <h1 className="users-title">users</h1>
-                        <button className="btn-add-user">+ add</button>
+                        <button className="btn-add-user" onClick={() => navigate('/users/new')}>+ add</button>
                     </div>
 
                     {isLoading ? (
@@ -79,11 +113,11 @@ function UsersPage() {
                                                 </span>
                                             </td>
                                             <td className="actions-cell">
-                                                <button className="icon-btn icon-btn--edit" title="edit">
+                                                <button className="icon-btn icon-btn--edit" title="edit" onClick={() => navigate(`/users/${user.id}/edit`)}>
                                                     <EditIcon />
                                                 </button>
                                                 
-                                                <button className="icon-btn icon-btn--delete" title="delete">
+                                                <button className="icon-btn icon-btn--delete" title="delete" onClick={() => handleDeleteClick(user)}>
                                                     <DeleteIcon />
                                                 </button>
                                             </td>
@@ -95,6 +129,34 @@ function UsersPage() {
                     )}
                 </div>
             </div>
+
+            {isModalOpen && (
+                <div className="modal-overlay" onClick={handleCloseModal}>
+                    <div className="modal-card" onClick={e => e.stopPropagation()}>
+                        <h2 className="modal-title">Delete user?</h2>
+                        <p className="modal-text">
+                            Are you sure you want to delete <strong>{userToDelete?.username}</strong>? 
+                            This action cannot be undone.
+                        </p>
+                        <div className="modal-actions">
+                            <button 
+                                className="btn-secondary" 
+                                onClick={handleCloseModal}
+                                disabled={isDeleting}
+                            >
+                                cancel
+                            </button>
+                            <button 
+                                className="btn-danger" 
+                                onClick={handleConfirmDelete}
+                                disabled={isDeleting}
+                            >
+                                {isDeleting ? 'deleting...' : 'delete'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

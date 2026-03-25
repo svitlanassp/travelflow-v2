@@ -4,6 +4,8 @@ import TripsPage from './pages/TripsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import UsersPage from './pages/UsersPage';
+import CreateUserPage from './pages/CreateUserPage';
+import EditUserPage from './pages/EditUserPage';
 
 const ProtectedRoute = ({ children }) => {
     if (!Auth.isLoggedIn()) {
@@ -18,24 +20,12 @@ function App() {
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-
-                <Route 
-                    path="/trips" 
-                    element={
-                        <ProtectedRoute>
-                            <TripsPage />
-                        </ProtectedRoute>
-                    } 
-                />
                 
-                <Route 
-                    path="/users" 
-                    element={
-                        <ProtectedRoute>
-                            <UsersPage />
-                        </ProtectedRoute>
-                    } 
-                />
+                <Route path="/trips" element={<ProtectedRoute><TripsPage /></ProtectedRoute>} />
+                <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
+
+                <Route path="/users/new" element={<ProtectedRoute><CreateUserPage /></ProtectedRoute>} />
+                <Route path="/users/:id/edit" element={<ProtectedRoute><EditUserPage /></ProtectedRoute>} />
 
                 <Route path="/" element={<Navigate to="/trips" />} />
             </Routes>

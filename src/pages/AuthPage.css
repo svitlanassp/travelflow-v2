@@ -45,12 +45,12 @@
 }
 
 .btn-go:hover {
-    transform: translateY(-0.5px);
+    transform: translateY(0) scale(0.98);
     filter: brightness(1.1); 
 }
 
 .btn-go:active {
-    transform: translateY(0) scale(0.98); 
+    transform: translateY(0) scale(0.97); 
 }
 
 .auth-link {
@@ -74,4 +74,40 @@
     border-radius: 11px;
     padding: 8px 12px;
     margin-bottom: 12px;
+}
+
+.auth-actions {
+    display: flex;
+    gap: 12px; 
+    margin-top: 24px;
+}
+
+.auth-actions .btn-go {
+    width: 100%;
+    margin-bottom: 0; 
+    flex: 1; 
+}
+
+.btn-secondary {
+    flex: 1; 
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--purple-light); 
+    border-radius: var(--radius-btn);
+    padding: 12px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--purple-light);
+    color: var(--purple-main);
+    border-color: var(--purple-light);
+}
+
+.btn-secondary:active {
+    transform: translateY(0) scale(0.98);
 }
