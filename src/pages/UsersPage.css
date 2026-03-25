@@ -1,7 +1,7 @@
 .users-container {
     display: flex;
     justify-content: center;
-    padding: 48px 20px;
+    padding: 40px 20px;
 }
  
 .users-card {
@@ -54,11 +54,25 @@
 }
 
 .users-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: var(--white); 
+    z-index: 10; 
+    
     text-align: left;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--purple-main);
     padding-bottom: 12px;
+    padding-top: 4px; 
+}
+
+.users-table thead th::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     border-bottom: 1px solid rgba(83, 74, 183, 0.1);
 }
  
@@ -151,3 +165,49 @@
 .icon-btn--delete:hover svg {
     transform: scale(1.10); 
 }
+
+.empty-state-wrapper {
+    padding: 40px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-state-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted); 
+    font-weight: var(--font-weight-medium);
+}
+
+.error-text {
+    color: var(--red-main);
+}
+
+.table-scroll-container {
+    max-height: 330px; 
+    overflow-y: auto; 
+    padding-right: 8px; 
+
+    scrollbar-width: thin; 
+    scrollbar-color: rgba(83, 74, 183, 0.4) transparent;
+
+}
+
+.table-scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(83, 74, 183, 0.2);
+    border-radius: 10px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(83, 74, 183, 0.5);
+}
+
+
