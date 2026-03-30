@@ -48,29 +48,6 @@
     color: var(--purple-main);
 }
 
-.btn-plan {
-    background: var(--purple-main);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-btn);
-    padding: 8px 16px;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease; 
-    cursor: pointer;
-}
-
-.btn-plan:hover {
-    transform: translateY(0) scale(1.02); 
-    filter: brightness(1.1); 
-}
-
-.btn-plan:active {
-    transform: translateY(0) scale(0.97); 
-}
-
 .trips-list {
     display: flex;
     gap: 26px;

@@ -20,7 +20,7 @@ function EditUserPage() {
                 const data = await api.getUser(id)
                 setUsername(data.username)
                 setRole(data.is_staff ? 'admin' : 'regular')
-            } catch (err) {
+            } catch {
                 setError('failed to load user data')
             } finally {
                 setIsLoading(false)
@@ -35,7 +35,7 @@ function EditUserPage() {
         try {
             await api.updateUser(id, { username, role })
             navigate('/users')
-        } catch (err) {
+        } catch {
             setError('failed to update user')
         }
     }
@@ -45,8 +45,8 @@ function EditUserPage() {
     return (
         <div className="app-wrapper">
             <Header />
-            <div className="auth-container">
-                <form className="auth-card" onSubmit={handleSubmit}>
+            <div className="centered-container">
+                <form className="card auth-card" onSubmit={handleSubmit}>
                     <h1 className="auth-title">edit user</h1>
 
                     {error && <p className="auth-error">{error}</p>}
@@ -63,7 +63,7 @@ function EditUserPage() {
 
                     <div className="auth-actions">
                         <button type="button" className="btn-secondary" onClick={() => navigate('/users')}>cancel</button>
-                        <button type="submit" className="btn-go">save</button>
+                        <button type="submit" className="btn-primary btn-go">save</button>
                     </div>
                 </form>
             </div>

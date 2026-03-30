@@ -30,7 +30,7 @@ function UsersPage() {
                 }))
                     
                 setUsers(formattedUsers)
-            } catch (err) {
+            } catch {
                 setError('failed to load users. backend might be sleeping zZz')
             } finally {
                 setIsLoading(false)
@@ -60,7 +60,7 @@ function UsersPage() {
             setUsers(prevUsers => prevUsers.filter(u => u.id !== userToDelete.id))
             
             handleCloseModal()
-        } catch (err) {
+        } catch {
             alert('failed to delete user. maybe they are immortal? 🧛')
         } finally {
             setIsDeleting(false)
@@ -70,11 +70,11 @@ function UsersPage() {
     return (
         <div className="app-wrapper">
             <Header />
-            <div className="users-container">
-                <div className="users-card">
+            <div className="centered-container">
+                <div className="card users-card">
                     <div className="users-card-header">
                         <h1 className="users-title">users</h1>
-                        <button className="btn-add-user" onClick={() => navigate('/users/new')}>+ add</button>
+                        <button className="btn-primary" onClick={() => navigate('/users/new')}>+ add</button>
                     </div>
 
                     {isLoading ? (
@@ -132,7 +132,7 @@ function UsersPage() {
 
             {isModalOpen && (
                 <div className="modal-overlay" onClick={handleCloseModal}>
-                    <div className="modal-card" onClick={e => e.stopPropagation()}>
+                    <div className="card modal-card" onClick={e => e.stopPropagation()}>
                         <h2 className="modal-title">Delete user?</h2>
                         <p className="modal-text">
                             Are you sure you want to delete <strong>{userToDelete?.username}</strong>? 

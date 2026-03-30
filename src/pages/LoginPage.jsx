@@ -26,7 +26,7 @@ function LoginPage() {
             } else {
             setError('invalid username or password');
             }
-        } catch(err) {
+        } catch {
             setError('invalid username or password');
         }
     };
@@ -34,8 +34,8 @@ function LoginPage() {
     return (
         <div className="app-wrapper">
             <Header hideAvatar />
-            <div className="auth-container">
-                <form className="auth-card" onSubmit={handleLogin}>
+            <div className="centered-container">
+                <form className="card auth-card" onSubmit={handleLogin}>
                     <h1 className="auth-title">sign in</h1>
                     <p className="auth-subtitle">to continue your adventures ✦</p>
                     {error && <p className="auth-error">{error}</p>}
@@ -53,7 +53,7 @@ function LoginPage() {
                         onChange={e => setPassword(e.target.value)}
                     />
 
-                    <button type="submit" className="btn-go">→ go</button>
+                    <button type="submit" className="btn-primary btn-go">→ go</button>
 
                     <p className="auth-link">
                         no account yet? <a href="/register" onClick={(e) => {

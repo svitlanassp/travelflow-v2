@@ -13,9 +13,6 @@
 }
 
 .modal-card {
-    background: var(--white);
-    border-radius: var(--radius-card);
-    border: var(--border);
     padding: 32px;
     width: 90%;
     max-width: 400px;
@@ -43,47 +40,10 @@
     gap: 12px;
 }
 
-.btn-secondary {
+
+.modal-actions .btn-secondary,
+.modal-actions .btn-danger {
     flex: 1;
-    background: transparent;
-    color: var(--text-muted);
-    border: 1px solid var(--purple-light);
-    border-radius: var(--radius-btn);
-    padding: 12px;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-secondary:hover {
-    background: var(--purple-light);
-    color: var(--purple-main);
-    border-color: var(--purple-light);
-}
-
-.btn-danger {
-    flex: 1;
-    background: var(--red-main); 
-    color: #ffffff;
-    border: none;
-    border-radius: var(--radius-btn);
-    padding: 12px;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-danger:hover {
-    filter: brightness(1.1);
-    transform: translateY(0) scale(0.98);
-}
-
-.btn-danger:active, .btn-secondary:active {
-    transform: translateY(0) scale(0.97);
 }
 
 @keyframes modalFadeIn {

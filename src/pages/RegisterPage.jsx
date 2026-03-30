@@ -31,8 +31,8 @@ function RegisterPage() {
     return (
         <div className="app-wrapper">
             <Header hideAvatar />
-            <div className="auth-container">
-                <form className="auth-card" onSubmit={handleRegister}>
+            <div className="centered-container">
+                <form className="card auth-card" onSubmit={handleRegister}>
                     <h1 className="auth-title">sign up</h1>
                     <p className="auth-subtitle">to start your adventures ✦</p>
                     {error && <p className="auth-error">{error}</p>}
@@ -57,7 +57,7 @@ function RegisterPage() {
                         onChange={e => setConfirmPassword(e.target.value)}
                     />
 
-                    <button type="submit" className="btn-go">→ go</button>
+                    <button type="submit" className="btn-primary btn-go">→ go</button>
 
                     <p className="auth-link">
                         already have an account? <a href="/login" onClick={(e) => {

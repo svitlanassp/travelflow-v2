@@ -1,13 +1,4 @@
-.auth-container {
-    display: flex;
-    justify-content: center;
-    padding: 40px 10px;
-}
-
 .auth-card {
-    background: var(--white);
-    border-radius: var(--radius-card);
-    border: var(--border);
     padding: 32px 36px 28px;
     width: 100%;
     max-width: 400px;
@@ -29,28 +20,8 @@
 
 .btn-go {
     width: 100%;
-    background: var(--purple-main);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-btn);
     padding: 12px;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    cursor: pointer;
     margin-bottom: 16px;
-
-    transition: all 0.3s ease; 
-    cursor: pointer;
-}
-
-.btn-go:hover {
-    transform: translateY(0) scale(0.98);
-    filter: brightness(1.1); 
-}
-
-.btn-go:active {
-    transform: translateY(0) scale(0.97); 
 }
 
 .auth-link {
@@ -82,32 +53,9 @@
     margin-top: 24px;
 }
 
-.auth-actions .btn-go {
+.auth-actions .btn-go,
+.auth-actions .btn-secondary {
     width: 100%;
     margin-bottom: 0; 
     flex: 1; 
-}
-
-.btn-secondary {
-    flex: 1; 
-    background: transparent;
-    color: var(--text-muted);
-    border: 1px solid var(--purple-light); 
-    border-radius: var(--radius-btn);
-    padding: 12px;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-secondary:hover {
-    background: var(--purple-light);
-    color: var(--purple-main);
-    border-color: var(--purple-light);
-}
-
-.btn-secondary:active {
-    transform: translateY(0) scale(0.98);
 }

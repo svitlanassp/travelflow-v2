@@ -25,7 +25,7 @@ function TripsPage() {
                             <button className="pill">past</button>
                         </div>
                     </div>
-                    <button className="btn-plan">→ plan</button>
+                    <button className="btn-primary">→ plan</button>
                 </div>
                 <div className="trips-list">
                     {mockTrips.map(trip => (

@@ -25,7 +25,7 @@ function CreateUserPage() {
         try {
             await api.createUser({ username, password, role })
             navigate('/users') 
-        } catch (err) {
+        } catch {
             setError('failed to create user. username might be taken.')
         }
     }
@@ -33,8 +33,8 @@ function CreateUserPage() {
     return (
         <div className="app-wrapper">
             <Header />
-            <div className="auth-container">
-                <form className="auth-card" onSubmit={handleSubmit}>
+            <div className="centered-container">
+                <form className="card auth-card" onSubmit={handleSubmit}>
                     <h1 className="auth-title">create user</h1>
 
                     {error && <p className="auth-error">{error}</p>}
@@ -53,7 +53,7 @@ function CreateUserPage() {
 
                     <div className="auth-actions">
                         <button type="button" className="btn-secondary" onClick={() => navigate('/users')}>cancel</button>
-                        <button type="submit" className="btn-go">confirm</button>
+                        <button type="submit" className="btn-primary btn-go">confirm</button>
                     </div>
                 </form>
             </div>
