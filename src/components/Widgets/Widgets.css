@@ -87,6 +87,13 @@
     justify-content: space-between;
 }
 
+.widget-year-controls {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    user-select: none;
+}
+
 .month-pill {
     display: flex;
     flex-direction: column;
@@ -95,6 +102,24 @@
     cursor: pointer;
     flex: 1;
     min-width: 0;
+    transition: all 0.2s ease;
+}
+
+.month-pill.empty {
+    cursor: default;
+}
+
+.month-pill.selected {
+    transform: scale(1.1);
+}
+
+.month-pill.selected .month-label {
+    color: var(--purple-main);
+    font-weight: 700;
+}
+
+.month-pill.dimmed {
+    opacity: 0.4;
 }
 
 .month-bar {

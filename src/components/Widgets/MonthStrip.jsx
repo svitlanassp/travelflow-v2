@@ -1,16 +1,67 @@
 const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
 
-function MonthStrip() {
+function MonthStrip({ trips, selectedYear, setSelectedYear, selectedMonth, setSelectedMonth }) {
+
+    const checkHasTrips = (monthIndex) => {
+        if (!trips || trips.length === 0) return false;
+        
+        const filterStart = new Date(selectedYear, monthIndex, 1);
+        const filterEnd = new Date(selectedYear, monthIndex + 1, 0);
+
+        return trips.some(trip => {
+            const start = new Date(trip.start_date);
+            const end = new Date(trip.end_date);
+            return start <= filterEnd && end >= filterStart;
+        });
+    };
+
+    const handleMonthClick = (index, hasTrips) => {
+        if (!hasTrips) return; 
+        setSelectedMonth(prev => prev === index ? null : index);
+    };
+
+    const handlePrevYear = () => {
+        setSelectedYear(y => y - 1);
+        setSelectedMonth(null); 
+    };
+    
+    const handleNextYear = () => {
+        setSelectedYear(y => y + 1);
+        setSelectedMonth(null);
+    };
+
     return (
         <div className="widget-card month-widget">
-            <p className="widget-year">{'< 2026 >'}</p>
+            {/* Використовуємо новий клас для вирівнювання замість інлайн */}
+            <div className="widget-year widget-year-controls">
+                <span onClick={handlePrevYear}>{'<'}</span>
+                <span>{selectedYear}</span>
+                <span onClick={handleNextYear}>{'>'}</span>
+            </div>
+            
             <div className="months-row">
-                {MONTHS.map((month, i) => (
-                    <div key={month} className={`month-pill ${[4,6,7].includes(i) ? 'active' : ''}`}>
-                        <div className="month-bar" />
-                        <span className="month-label">{month}</span>
-                    </div>
-                ))}
+                {MONTHS.map((month, i) => {
+                    const hasTrips = checkHasTrips(i);
+                    const isSelected = selectedMonth === i;
+                    const isDimmed = selectedMonth !== null && !isSelected;
+
+                    // Збираємо класи до купи залежно від стану
+                    const pillClasses = `month-pill ${hasTrips ? 'active' : 'empty'} ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}`;
+
+                    return (
+                        <div 
+                            key={month} 
+                            className={pillClasses.trim()}
+                            onClick={() => handleMonthClick(i, hasTrips)}
+                        >
+                            <div className="month-bar" />
+                            {/* Колір та вага шрифта тепер керується через .selected в CSS */}
+                            <span className="month-label">
+                                {month}
+                            </span>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )

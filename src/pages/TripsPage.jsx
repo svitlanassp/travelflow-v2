@@ -10,6 +10,9 @@ function TripsPage() {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('all');
 
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState(null); // null означає, що фільтр по місяцю вимкнено
+
     useEffect(() => {
         const fetchTrips = async () => {
             try {
@@ -28,9 +31,31 @@ function TripsPage() {
     today.setHours(0, 0, 0, 0);
 
     const filteredTrips = trips.filter(trip => {
-        if (filter === 'all') return true;
+        // 1. Фільтр Active / Past
         const endDate = new Date(trip.end_date);
-        return filter === 'active' ? endDate >= today : endDate < today;
+        let passesType = true;
+        if (filter === 'active') passesType = endDate >= today;
+        if (filter === 'past') passesType = endDate < today;
+        
+        if (!passesType) return false;
+
+        // 2. Фільтр по Місяцю та Року
+        if (selectedMonth !== null) {
+            const tripStart = new Date(trip.start_date);
+            tripStart.setHours(0, 0, 0, 0);
+            const tripEnd = new Date(trip.end_date);
+            tripEnd.setHours(0, 0, 0, 0);
+
+            // Знаходимо перший і останній день обраного місяця
+            const filterMonthStart = new Date(selectedYear, selectedMonth, 1);
+            const filterMonthEnd = new Date(selectedYear, selectedMonth + 1, 0);
+
+            // Перевіряємо чи перетинається поїздка з цим місяцем
+            const overlaps = tripStart <= filterMonthEnd && tripEnd >= filterMonthStart;
+            if (!overlaps) return false;
+        }
+
+        return true;
     });
 
     // 1. Стейт повного відсутності поїздок
@@ -89,7 +114,13 @@ function TripsPage() {
                         )}
                         
                         {/* Віджети показуємо тільки якщо є хоча б одна поїздка в базі */}
-                        <Widgets trips={trips} />
+                        <Widgets 
+                            trips={trips} 
+                            selectedYear={selectedYear}
+                            setSelectedYear={setSelectedYear}
+                            selectedMonth={selectedMonth}
+                            setSelectedMonth={setSelectedMonth}
+                        />
                     </>
                 )}
             </div>

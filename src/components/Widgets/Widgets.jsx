@@ -2,11 +2,17 @@ import NextTripWidget from './NextTripWidget'
 import MonthStrip from './MonthStrip'
 import './Widgets.css'
 
-function Widgets({ trips }) {
+function Widgets({ trips, selectedYear, setSelectedYear, selectedMonth, setSelectedMonth }) {
     return (
         <div className="widgets-row">
             <NextTripWidget trips={trips} />
-            <MonthStrip />
+            <MonthStrip 
+                trips={trips}
+                selectedYear={selectedYear}
+                setSelectedYear={setSelectedYear}
+                selectedMonth={selectedMonth}
+                setSelectedMonth={setSelectedMonth}
+            />
         </div>
     )
 }

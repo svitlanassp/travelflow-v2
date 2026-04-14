@@ -37,4 +37,36 @@
     --radius-card: 20px;
     --radius-btn: 12px;
     --radius-pill: 99px;
+
+    /* categories */
+    /* entertainment */
+    --cat-ent-bg: #FFFBDA;
+    --cat-ent-main: #F8EB89;
+    --cat-ent-dark: #C7B000;
+
+    /* sightseeing */
+    --cat-sights-bg: #FFE1ED;
+    --cat-sights-main: #FFAFCF;
+    --cat-sights-dark: #DD3B7C;
+
+    /* food & drinks */
+    --cat-food-bg: #95A3DD;
+    --cat-food-main: #4961CC;
+    --cat-food-dark: #26215C;
+
+    /* transport */
+    --cat-transport-bg: #CFF3DF;
+    --cat-transport-main: #93D5AD;
+    --cat-transport-dark: #166D37;
+
+    /* shopping */
+    --cat-shopping-bg: #FADBFF;
+    --cat-shopping-main: #DDA8E2;
+    --cat-shopping-dark: #7D2083;
+
+    /* others */
+    --cat-others-bg: #FFE8CB;
+    --cat-others-main: #F8C489;
+    --cat-others-dark: #C77400;
+
 }
