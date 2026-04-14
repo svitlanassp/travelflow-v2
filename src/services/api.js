@@ -63,4 +63,5 @@ export const api = {
     deleteUser: (id) => request(`/users/${id}/`, { 
         method: 'DELETE' 
     }),
+    getTrips: () => request('/trips/'),
 };

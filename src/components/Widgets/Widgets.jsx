@@ -2,10 +2,10 @@ import NextTripWidget from './NextTripWidget'
 import MonthStrip from './MonthStrip'
 import './Widgets.css'
 
-function Widgets() {
+function Widgets({ trips }) {
     return (
         <div className="widgets-row">
-            <NextTripWidget />
+            <NextTripWidget trips={trips} />
             <MonthStrip />
         </div>
     )
