@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage';
 import UsersPage from './pages/UsersPage';
 import CreateUserPage from './pages/CreateUserPage';
 import EditUserPage from './pages/EditUserPage';
+import SchedulePage from './pages/SchedulePage';
 
 const ProtectedRoute = ({ children }) => {
     if (!Auth.isLoggedIn()) {
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 
                 <Route path="/trips" element={<ProtectedRoute><TripsPage /></ProtectedRoute>} />
+                <Route path="/trip/:id" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
 
                 <Route path="/users" element={<AdminRoute><UsersPage /></AdminRoute>} />
                 <Route path="/users/new" element={<AdminRoute><CreateUserPage /></AdminRoute>} />

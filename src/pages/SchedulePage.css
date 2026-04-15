@@ -1,0 +1,223 @@
+/* SchedulePage.css */
+
+/* === LOADING STATE === */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh; /* Центруємо лоадер по вертикалі */
+}
+
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    /* Щоб календар не вилазив за екран по висоті, фіксуємо висоту контейнера (опціонально) */
+    height: calc(100vh - 120px); 
+}
+
+/* === SUBHEADER === */
+.subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px; /* Додали відступ від верхнього Header */
+    margin-bottom: 24px;
+    gap: 20px;
+}
+
+.subheader-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    /* Щоб довга назва розштовхувала таби, але не вилазила за межі екрана */
+    flex-wrap: wrap; 
+}
+
+.subheader-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.back-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--purple-main);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.back-btn:hover {
+    transform: translateX(-4px);
+}
+
+/* Назва подорожі + Hover ефект олівця */
+.trip-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    /* Запас для олівця, щоб текст не стрибав при ховері */
+    padding-right: 20px; 
+    position: relative;
+}
+
+.trip-title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-dark);
+    margin: 0;
+    line-height: 1;
+}
+
+.edit-icon {
+    font-size: 16px;
+    color: var(--purple-muted);
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.trip-title-wrapper:hover .edit-icon {
+    opacity: 1;
+    color: var(--purple-main);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    background: var(--purple-light);
+    border-radius: var(--radius-pill);
+    padding: 4px;
+    margin-left: 8px; /* Відступ від назви */
+}
+
+.tab {
+    border: none;
+    background: transparent;
+    padding: 6px 16px;
+    border-radius: 99px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--purple-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab.active {
+    background: var(--white);
+    color: var(--purple-main);
+    box-shadow: 0 2px 8px rgba(83, 74, 183, 0.08);
+}
+
+/* Category Dropdown */
+.category-filter {
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    border: var(--border);
+    background: var(--white);
+    color: var(--purple-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-add {
+    padding: 8px 16px;
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* === DAYS CALENDAR CONTAINER === */
+.days-container {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    overflow-x: auto; 
+    overflow-y: hidden;
+    padding-bottom: 12px;
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.days-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+/* === INDIVIDUAL DAY COLUMN === */
+.day-column {
+    padding: 0 !important; 
+    display: flex;
+    flex-direction: column;
+    max-height: 100%; 
+    overflow: hidden; 
+}
+
+.flexible-width {
+    flex: 1; /* Рівномірно розтягує картки (від 1 до 5 штук) */
+    min-width: 180px; /* Мінімальна межа, щоб вони не стискалися в лінію на малих екранах */
+}
+
+.fixed-width {
+    /* Фіксуємо ширину так, щоб 5 вміщалось, а 6-та вилазила і створювала скролл */
+    flex: 0 0 215px; 
+}
+
+/* Sticky Header всередині картки */
+.day-header {
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 20px 24px 12px 24px;
+    border-bottom: 1px solid rgba(83, 74, 183, 0.06);
+    z-index: 10;
+}
+
+.day-date {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-dark);
+}
+
+.day-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-muted);
+    text-transform: lowercase;
+}
+
+/* Список івентів всередині дня */
+.events-list {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Вертикальний скролл для конкретного дня */
+    overflow-y: auto; 
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.events-list::-webkit-scrollbar {
+    display: none;
+}
+
+.no-events {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    opacity: 0.6;
+    text-align: center;
+    margin-top: 20px;
+}

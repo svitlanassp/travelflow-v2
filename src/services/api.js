@@ -64,4 +64,5 @@ export const api = {
         method: 'DELETE' 
     }),
     getTrips: () => request('/trips/'),
+    getTrip: (id) => request(`/trips/${id}/`),
 };
