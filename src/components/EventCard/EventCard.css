@@ -1,0 +1,79 @@
+.event-card {
+    /* 1) Фон картки (найсвітліший з палітри) */
+    background-color: var(--event-bg); 
+    /* 2) Контур картки (основний колір палітри) */
+    border: 1px solid var(--event-main); 
+    border-radius: 16px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+    /* Додав ледь помітний кольоровий відтінок тіні при наведенні для преміальності */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04); 
+}
+
+.event-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.event-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-dark); /* Залишаємо темним, щоб очі не боліли читати назви */
+    margin: 0;
+    line-height: 1.3;
+    word-wrap: break-word; 
+}
+
+.event-time {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-dark);
+}
+
+.event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.event-category-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    /* 3) Фон бейджа (білий ідеально контрастує з кольоровим фоном картки) */
+    background-color: var(--event-main); 
+    /* 4) Колір тексту на бейджі (найтемніший з палітри) */
+    color: var(--event-dark);
+    padding: 4px 6px;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    flex-shrink: 1; 
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-category-icon {
+    font-size: 12px;
+}
+
+.event-cost {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    /* 4) Колір ціни (найтемніший з палітри) */
+    color: var(--event-dark);
+    flex-shrink: 0; 
+}

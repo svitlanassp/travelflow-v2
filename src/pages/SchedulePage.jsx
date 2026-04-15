@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header/Header';
+import EventCard from '../components/EventCard/EventCard';
 import { api } from '../services/api';
 import { CATEGORY_STYLES } from '../constants/categories'; 
 import './SchedulePage.css';
@@ -166,9 +167,8 @@ function SchedulePage() {
                                         <p className="no-events">no plans yet</p>
                                     ) : (
                                         dayEvents.map(event => (
-                                            <div key={event.id} className="event-placeholder">
-                                                {event.visit_time ? event.visit_time.slice(0,5) + ' - ' : ''} {event.title}
-                                            </div>
+                                            // ЗАМІНИЛИ ЗАГЛУШКУ НА НАШУ КАРТКУ
+                                            <EventCard key={event.id} event={event} />
                                         ))
                                     )}
                                 </div>

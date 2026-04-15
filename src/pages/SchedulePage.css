@@ -247,7 +247,7 @@
 
 /* Список івентів всередині дня */
 .events-list {
-    padding: 16px 24px;
+    padding: 16px 10px;
     display: flex;
     flex-direction: column;
     gap: 12px;
