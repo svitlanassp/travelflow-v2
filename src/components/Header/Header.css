@@ -65,12 +65,16 @@
     background-color: var(--white);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow);
-    width: 120px;
+    width: 140px; /* Трошки збільшила ширину, щоб компенсувати нові внутрішні відступи */
     display: flex;
     flex-direction: column;
-    overflow: hidden; 
     z-index: 100;
     border: var(--border); 
+    
+    /* ДОДАНО: Внутрішній відступ та простір між елементами */
+    padding: 8px; 
+    gap: 4px; 
+    /* ПРИБРАНО: overflow: hidden; (більше не потрібно) */
 
     animation: slideDownFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -82,7 +86,9 @@
 
     background: transparent;
     border: none;
-    padding: 12px 16px;
+    /* ДОДАНО: Радіус та трохи інші падінги, як у новому дропдауні */
+    padding: 10px 12px;
+    border-radius: 12px; 
     text-align: left;
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
@@ -95,10 +101,6 @@
 .dropdown-item svg {
     width: 16px;
     height: 16px;
-}
-
-.dropdown-item:not(:last-child) {
-    border-bottom: 1px solid #f2f2f2;
 }
 
 .dropdown-item--users {

@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import { api } from '../services/api';
-import './SchedulePage.css';
-
-// Конфіг для селекта категорій
 import { CATEGORY_STYLES } from '../constants/categories'; 
-// Якщо ти ще не створила цей імпорт, просто використай об'єкт з минулого чату або залиш 'all' 
+import './SchedulePage.css';
 
 function SchedulePage() {
     const { id } = useParams();
@@ -15,6 +12,9 @@ function SchedulePage() {
     const [trip, setTrip] = useState(null);
     const [loading, setLoading] = useState(true);
     const [categoryFilter, setCategoryFilter] = useState('all');
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         const fetchTripDetails = async () => {
@@ -30,12 +30,20 @@ function SchedulePage() {
         fetchTripDetails();
     }, [id]);
 
-    // Хелпер: Отримуємо масив усіх дат від start_date до end_date
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     const getDatesBetween = (startStr, endStr) => {
         const dates = [];
         let current = new Date(startStr);
         const end = new Date(endStr);
-        
         while (current <= end) {
             dates.push(new Date(current));
             current.setDate(current.getDate() + 1);
@@ -43,7 +51,6 @@ function SchedulePage() {
         return dates;
     };
 
-    // Хелпери для форматування (наприклад "June 10" та "thu")
     const formatDayDate = (date) => new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric' }).format(date);
     const formatDayName = (date) => new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(date).toLowerCase();
 
@@ -61,20 +68,28 @@ function SchedulePage() {
     if (!trip) return null;
 
     const days = getDatesBetween(trip.start_date, trip.end_date);
-    const isScrollable = days.length >= 6;
+    const isScrollable = days.length >= 6; 
 
-    // Фільтруємо івенти (places) за категорією
     const filteredEvents = trip.places.filter(place => {
         if (categoryFilter === 'all') return true;
         return place.category === categoryFilter;
     });
+
+    const filterOptions = [
+        { id: 'all', label: 'all categories', icon: '🌍', bg: 'var(--purple-light)', main: 'var(--purple-main)' },
+        ...Object.entries(CATEGORY_STYLES).map(([key, value]) => ({
+            id: key,
+            ...value
+        }))
+    ];
+
+    const selectedOption = filterOptions.find(opt => opt.id === categoryFilter);
 
     return (
         <div className="app-wrapper">
             <Header />
             <div className="page-container schedule-container">
                 
-                {/* SUBHEADER */}
                 <div className="subheader">
                     <div className="subheader-left">
                         <button className="back-btn" onClick={() => navigate('/trips')}>
@@ -83,7 +98,6 @@ function SchedulePage() {
                         
                         <div className="trip-title-wrapper">
                             <h1 className="trip-title">{trip.title}</h1>
-                            {/* Іконка олівця (можеш замінити на свою SVG) */}
                             <span className="edit-icon">✎</span>
                         </div>
 
@@ -94,24 +108,44 @@ function SchedulePage() {
                     </div>
 
                     <div className="subheader-right">
-                        <select 
-                            className="category-filter"
-                            value={categoryFilter}
-                            onChange={(e) => setCategoryFilter(e.target.value)}
-                        >
-                            <option value="all">All Categories</option>
-                            <option value="transport">Transport</option>
-                            <option value="food">Food & Drinks</option>
-                            <option value="sightseeing">Sightseeing</option>
-                            <option value="entertainment">Entertainment</option>
-                            <option value="shopping">Shopping</option>
-                            <option value="others">Others</option>
-                        </select>
+                        
+                        <div className="custom-dropdown" ref={dropdownRef}>
+                            <button 
+                                className="custom-dropdown-trigger"
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            >
+                                <span className="dropdown-icon">{selectedOption.icon}</span>
+                                <span className="dropdown-label">{selectedOption.label}</span>
+                                <span className="dropdown-arrow">▼</span>
+                            </button>
+
+                            {isDropdownOpen && (
+                                <div className="custom-dropdown-menu">
+                                    {filterOptions.map(option => (
+                                        <button
+                                            key={option.id}
+                                            className={`custom-dropdown-item ${categoryFilter === option.id ? 'active' : ''}`}
+                                            onClick={() => {
+                                                setCategoryFilter(option.id);
+                                                setIsDropdownOpen(false);
+                                            }}
+                                            style={{
+                                                '--hover-bg': option.bg,
+                                                '--item-color': option.dark
+                                            }}
+                                        >
+                                            <span className="item-icon">{option.icon}</span>
+                                            <span className="item-label">{option.label}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
                         <button className="btn-primary btn-add">+</button>
                     </div>
                 </div>
 
-                {/* CALENDAR / DAYS CONTAINER */}
                 <div className="days-container">
                     {days.map((dayDate) => {
                         const dateString = dayDate.toISOString().split('T')[0]; 
@@ -120,7 +154,6 @@ function SchedulePage() {
                         return (
                             <div 
                                 key={dateString} 
-                                // Використовуємо класи замість інлайн-стилів
                                 className={`card day-column ${isScrollable ? 'fixed-width' : 'flexible-width'}`}
                             >
                                 <div className="day-header">

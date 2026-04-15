@@ -1,26 +1,24 @@
-/* SchedulePage.css */
-
-/* === LOADING STATE === */
+/*  LOADING STATE  */
 .loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60vh; /* Центруємо лоадер по вертикалі */
+    height: 60vh; 
 }
 
 .schedule-container {
     display: flex;
     flex-direction: column;
-    /* Щоб календар не вилазив за екран по висоті, фіксуємо висоту контейнера (опціонально) */
-    height: calc(100vh - 120px); 
+    height: calc(100vh - 120px);
+    max-height: 750px;
 }
 
-/* === SUBHEADER === */
+/*  SUBHEADER  */
 .subheader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 32px; /* Додали відступ від верхнього Header */
+    margin-top: 24px; 
     margin-bottom: 24px;
     gap: 20px;
 }
@@ -29,7 +27,6 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    /* Щоб довга назва розштовхувала таби, але не вилазила за межі екрана */
     flex-wrap: wrap; 
 }
 
@@ -40,12 +37,13 @@
 }
 
 .back-btn {
-    background: transparent;
-    border: none;
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius-btn);
+    padding: 5px 9px;
     font-size: 20px;
     color: var(--purple-main);
     cursor: pointer;
-    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,23 +51,21 @@
 }
 
 .back-btn:hover {
-    transform: translateX(-4px);
+    transform: translateX(-2px);
 }
 
-/* Назва подорожі + Hover ефект олівця */
 .trip-title-wrapper {
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    /* Запас для олівця, щоб текст не стрибав при ховері */
     padding-right: 20px; 
     position: relative;
 }
 
 .trip-title {
     font-size: var(--font-size-md);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-semibold);
     color: var(--text-dark);
     margin: 0;
     line-height: 1;
@@ -89,20 +85,20 @@
     color: var(--purple-main);
 }
 
-/* Tabs */
 .tabs {
     display: flex;
-    background: var(--purple-light);
-    border-radius: var(--radius-pill);
+    background: var(--white);
+    border-radius: var(--radius-btn);
+    border: var(--border);
     padding: 4px;
-    margin-left: 8px; /* Відступ від назви */
+    margin-left: 8px; 
 }
 
 .tab {
     border: none;
     background: transparent;
     padding: 6px 16px;
-    border-radius: 99px;
+    border-radius: 10px;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
@@ -112,23 +108,76 @@
 }
 
 .tab.active {
-    background: var(--white);
+    background: var(--purple-light);
     color: var(--purple-main);
-    box-shadow: 0 2px 8px rgba(83, 74, 183, 0.08);
 }
 
 /* Category Dropdown */
-.category-filter {
-    padding: 8px 16px;
-    border-radius: var(--radius-pill);
-    border: var(--border);
+
+.custom-dropdown {
+    position: relative;
+}
+
+.custom-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius-btn);
+    padding: 8px 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
     color: var(--purple-main);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dropdown-arrow {
+    font-size: 10px;
+    color: var(--purple-muted);
+    margin-left: 4px;
+}
+
+.custom-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 200px;
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 100;
+}
+
+.custom-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 12px;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
+    color: var(--text-dark);
     cursor: pointer;
-    outline: none;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.custom-dropdown-item:hover,
+.custom-dropdown-item.active {
+    background: var(--hover-bg);
+    color: var(--item-color);
+    font-weight: var(--font-weight-semibold);
 }
 
 .btn-add {
@@ -137,7 +186,7 @@
     line-height: 1;
 }
 
-/* === DAYS CALENDAR CONTAINER === */
+/* DAYS CALENDAR CONTAINER */
 .days-container {
     display: flex;
     gap: 12px;
@@ -150,10 +199,10 @@
 }
 
 .days-container::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none; 
 }
 
-/* === INDIVIDUAL DAY COLUMN === */
+/* INDIVIDUAL DAY COLUMN */
 .day-column {
     padding: 0 !important; 
     display: flex;
@@ -163,16 +212,14 @@
 }
 
 .flexible-width {
-    flex: 1; /* Рівномірно розтягує картки (від 1 до 5 штук) */
-    min-width: 180px; /* Мінімальна межа, щоб вони не стискалися в лінію на малих екранах */
+    flex: 1; 
+    min-width: 180px; 
 }
 
 .fixed-width {
-    /* Фіксуємо ширину так, щоб 5 вміщалось, а 6-та вилазила і створювала скролл */
     flex: 0 0 215px; 
 }
 
-/* Sticky Header всередині картки */
 .day-header {
     position: sticky;
     top: 0;
@@ -180,19 +227,19 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 20px 24px 12px 24px;
+    padding: 18px 20px 10px 20px;
     border-bottom: 1px solid rgba(83, 74, 183, 0.06);
     z-index: 10;
 }
 
 .day-date {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
     color: var(--text-dark);
 }
 
 .day-name {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     color: var(--text-muted);
     text-transform: lowercase;
@@ -204,7 +251,6 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    /* Вертикальний скролл для конкретного дня */
     overflow-y: auto; 
     flex: 1;
     scrollbar-width: none;
