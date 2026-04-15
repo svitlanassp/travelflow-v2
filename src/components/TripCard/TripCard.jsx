@@ -1,6 +1,5 @@
 import './TripCard.css'
 
-// Адреса твого бекенду
 const BACKEND_URL = 'http://127.0.0.1:8000';
 
 function TripCard({ trip }) {
@@ -22,12 +21,9 @@ function TripCard({ trip }) {
         return `${formattedStart.toLowerCase()} - ${formattedEnd.toLowerCase()}, ${formattedYear}`;
     };
 
-    // Функція для правильного формування URL картинки
     const getImageUrl = (path) => {
         if (!path) return null;
-        // Якщо бекенд раптом почне повертати абсолютний URL (з http)
         if (path.startsWith('http')) return path;
-        // Інакше клеїмо домен бекенду до відносного шляху
         return `${BACKEND_URL}${path}`;
     };
 
@@ -36,7 +32,6 @@ function TripCard({ trip }) {
     return (
         <div className="trip-card">
             <div className="trip-card-image" style={{ backgroundColor: '#F0F0F0' }}>
-                {/* Використовуємо наш згенерований imageUrl */}
                 {imageUrl && (
                     <img src={imageUrl} alt={trip.title} />
                 )}

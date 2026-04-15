@@ -32,7 +32,6 @@ function MonthStrip({ trips, selectedYear, setSelectedYear, selectedMonth, setSe
 
     return (
         <div className="widget-card month-widget">
-            {/* Використовуємо новий клас для вирівнювання замість інлайн */}
             <div className="widget-year widget-year-controls">
                 <span onClick={handlePrevYear}>{'<'}</span>
                 <span>{selectedYear}</span>
@@ -45,7 +44,6 @@ function MonthStrip({ trips, selectedYear, setSelectedYear, selectedMonth, setSe
                     const isSelected = selectedMonth === i;
                     const isDimmed = selectedMonth !== null && !isSelected;
 
-                    // Збираємо класи до купи залежно від стану
                     const pillClasses = `month-pill ${hasTrips ? 'active' : 'empty'} ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}`;
 
                     return (
@@ -55,7 +53,6 @@ function MonthStrip({ trips, selectedYear, setSelectedYear, selectedMonth, setSe
                             onClick={() => handleMonthClick(i, hasTrips)}
                         >
                             <div className="month-bar" />
-                            {/* Колір та вага шрифта тепер керується через .selected в CSS */}
                             <span className="month-label">
                                 {month}
                             </span>

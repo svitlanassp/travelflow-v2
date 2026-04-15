@@ -25,6 +25,9 @@ function Header({ hideAvatar = false }) {
 
     const userRole = Auth.getRole()
 
+    const username = Auth.getUsername();
+    const avatarLetter = username ? username.charAt(0) : 'U';
+
     const handleLogout = () => {
         Auth.logout() 
         setIsDropdownOpen(false); 
@@ -44,7 +47,7 @@ function Header({ hideAvatar = false }) {
                         className="header-avatar" 
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     >
-                        A
+                        {avatarLetter}
                     </div>
                     
                     {isDropdownOpen && (

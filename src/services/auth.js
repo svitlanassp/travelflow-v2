@@ -20,6 +20,7 @@ export const Auth = {
     logout() {
         this.removeToken();
         this.removeRole();
+        this.removeUsername();
     },
 
     setRole(role) {
@@ -33,5 +34,17 @@ export const Auth = {
     removeRole() {
         localStorage.removeItem('userRole');
     },
+
+    setUsername(name) {
+        localStorage.setItem('userName', name);
+    },
+
+    getUsername() {
+        return localStorage.getItem('userName') || 'Traveler'; 
+    },
+
+    removeUsername() {
+        localStorage.removeItem('userName');
+    }
 
 };

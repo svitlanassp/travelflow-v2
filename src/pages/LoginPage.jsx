@@ -22,6 +22,7 @@ function LoginPage() {
             if (data && data.access) {
                 Auth.setToken(data.access)
                 Auth.setRole(data.role)
+                Auth.setUsername(username)
                 navigate('/trips')
             } else {
             setError('invalid username or password');

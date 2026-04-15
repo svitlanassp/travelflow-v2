@@ -1,5 +1,3 @@
-// src/constants/categories.js
-
 export const CATEGORY_STYLES = {
     transport: {
         label: 'transport',
