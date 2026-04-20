@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom'; 
 import './TripCard.css'
 
 const BACKEND_URL = 'http://127.0.0.1:8000';
 
 function TripCard({ trip }) {
+    const navigate = useNavigate(); 
+
     const progress = trip.total_budget > 0 
         ? Math.min((trip.total_spent / trip.total_budget) * 100, 100)
         : 0;
@@ -30,7 +33,10 @@ function TripCard({ trip }) {
     const imageUrl = getImageUrl(trip.cover_image);
 
     return (
-        <div className="trip-card">
+        <div 
+            className="trip-card" 
+            onClick={() => navigate(`/trip/${trip.id}`)} 
+        >
             <div className="trip-card-image" style={{ backgroundColor: '#F0F0F0' }}>
                 {imageUrl && (
                     <img src={imageUrl} alt={trip.title} />
