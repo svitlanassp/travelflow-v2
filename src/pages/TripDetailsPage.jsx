@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import ScheduleTab from '../components/ScheduleTab/ScheduleTab';
-// import BudgetTab from '../components/BudgetTab/BudgetTab'; // Поки закоментовано
+import BudgetTab from '../components/BudgetTab/BudgetTab';
 import { api } from '../services/api';
 import { CATEGORY_STYLES } from '../constants/categories'; 
 import './TripDetailsPage.css';
@@ -131,9 +131,7 @@ function TripDetailsPage() {
                 {activeTab === 'schedule' ? (
                     <ScheduleTab trip={trip} categoryFilter={categoryFilter} />
                 ) : (
-                    <div style={{textAlign: 'center', marginTop: '50px', color: 'var(--text-muted)'}}>
-                        Budget tab is under construction 🛠️
-                    </div>
+                    <BudgetTab trip={trip} />
                 )}
 
             </div>

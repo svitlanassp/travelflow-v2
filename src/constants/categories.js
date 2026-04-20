@@ -4,7 +4,7 @@ export const CATEGORY_STYLES = {
         bg: 'var(--cat-transport-bg)', 
         main: 'var(--cat-transport-main)',
         dark: 'var(--cat-transport-dark)',
-        icon: '🚗' 
+        icon: '🚎' 
     },
     food: {
         label: 'food & drinks',
