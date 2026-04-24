@@ -62,7 +62,7 @@
     flex-direction: column;
     gap: 4px;
     z-index: 1100;
-    max-height: 250px;
+    max-height: 25vh;
     overflow-y: auto;
     scrollbar-width: none;
 }

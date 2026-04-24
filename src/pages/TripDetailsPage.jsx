@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import ScheduleTab from '../components/ScheduleTab/ScheduleTab';
 import BudgetTab from '../components/BudgetTab/BudgetTab';
+import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
 import { api } from '../services/api';
 import { CATEGORY_STYLES } from '../constants/categories'; 
 import './TripDetailsPage.css';
@@ -19,6 +20,7 @@ function TripDetailsPage() {
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
 
     useEffect(() => {
         const fetchTripDetails = async () => {
@@ -64,6 +66,16 @@ function TripDetailsPage() {
         }))
     ];
     const selectedOption = filterOptions.find(opt => opt.id === categoryFilter);
+
+    const handleExpenseAdded = (newExpense) => {
+        setTrip(prevTrip => ({
+            ...prevTrip,
+            expenses: [...prevTrip.expenses, newExpense],
+            // Одразу плюсуємо до загальної суми, щоб прогрес-бари перемалювалися
+            total_spent: (parseFloat(prevTrip.total_spent || 0) + parseFloat(newExpense.amount)).toString()
+        }));
+        setIsAddExpenseOpen(false);
+    };
 
     return (
         <div className="app-wrapper">
@@ -131,10 +143,16 @@ function TripDetailsPage() {
                 {activeTab === 'schedule' ? (
                     <ScheduleTab trip={trip} categoryFilter={categoryFilter} />
                 ) : (
-                    <BudgetTab trip={trip} />
+                    <BudgetTab trip={trip} onAddExpense={() => setIsAddExpenseOpen(true)}/>
                 )}
 
             </div>
+            <AddExpenseModal 
+                isOpen={isAddExpenseOpen}
+                onClose={() => setIsAddExpenseOpen(false)}
+                tripId={trip.id}
+                onExpenseAdded={handleExpenseAdded}
+            />
         </div>
     );
 }

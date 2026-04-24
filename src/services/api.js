@@ -70,4 +70,8 @@ export const api = {
         body: formData,
         isFormData: true 
     }),
+    createExpense: (data) => request('/expenses/', {
+        method: 'POST',
+        body: JSON.stringify(data)
+    }),
 };

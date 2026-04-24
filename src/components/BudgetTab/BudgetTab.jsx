@@ -1,7 +1,7 @@
 import { getCategoryStyle, CATEGORY_STYLES } from '../../constants/categories';
 import './BudgetTab.css';
 
-function BudgetTab({ trip }) {
+function BudgetTab({ trip, onAddExpense }) {
     const totalBudget = parseFloat(trip.total_budget) || 0;
     const totalSpent = parseFloat(trip.total_spent) || 0;
     const remaining = totalBudget - totalSpent;
@@ -126,7 +126,7 @@ function BudgetTab({ trip }) {
                 <div className="expenses-section card">
                     <div className="expenses-header">
                         <h3 className="section-title">all expenses</h3>
-                        <button className="btn-primary btn-sm">+ new expense</button>
+                        <button className="btn-primary btn-sm" onClick={onAddExpense}>+ new expense</button>
                     </div>
 
                     <div className="expenses-list">
