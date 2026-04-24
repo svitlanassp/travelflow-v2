@@ -31,3 +31,9 @@
 .input-field:focus {
     box-shadow: 0 0 0 1px rgba(127, 119, 221, 0.25);
 }
+
+textarea.input-field {
+    min-height: 80px;
+    resize: vertical; /* Дозволяє розтягувати поле тільки вниз */
+    font-family: inherit; /* Щоб шрифт не злітав на дефолтний */
+}

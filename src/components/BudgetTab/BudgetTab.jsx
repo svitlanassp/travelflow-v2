@@ -1,7 +1,7 @@
 import { getCategoryStyle, CATEGORY_STYLES } from '../../constants/categories';
 import './BudgetTab.css';
 
-function BudgetTab({ trip, onAddExpense }) {
+function BudgetTab({ trip, onAddExpense, onDeleteClick }) {
     const totalBudget = parseFloat(trip.total_budget) || 0;
     const totalSpent = parseFloat(trip.total_spent) || 0;
     const remaining = totalBudget - totalSpent;
@@ -155,7 +155,12 @@ function BudgetTab({ trip, onAddExpense }) {
                                             </div>
                                             <div className="expense-price">${item.displayAmount.toFixed(2)}</div>
                                             
-                                            <button className="delete-expense-btn">×</button>
+                                            <button 
+                                                className="delete-expense-btn" 
+                                                onClick={() => onDeleteClick(item)}
+                                            >
+                                                ×
+                                            </button>
                                         </div>
                                     </div>
                                 );

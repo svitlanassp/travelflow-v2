@@ -4,6 +4,8 @@ import Header from '../components/Header/Header';
 import ScheduleTab from '../components/ScheduleTab/ScheduleTab';
 import BudgetTab from '../components/BudgetTab/BudgetTab';
 import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
+import AddEventModal from '../components/AddEventModal/AddEventModal';
+import ConfirmModal from '../components/UI/ConfirmModal';
 import { api } from '../services/api';
 import { CATEGORY_STYLES } from '../constants/categories'; 
 import './TripDetailsPage.css';
@@ -21,6 +23,10 @@ function TripDetailsPage() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+    const [isAddEventOpen, setIsAddEventOpen] = useState(false);
+
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         const fetchTripDetails = async () => {
@@ -76,6 +82,49 @@ function TripDetailsPage() {
         }));
         setIsAddExpenseOpen(false);
     };
+
+    const handleEventAdded = (newEvent) => {
+        setTrip(prevTrip => ({
+            ...prevTrip,
+            places: [...prevTrip.places, newEvent],
+            // Якщо ти хочеш, щоб cost івенту теж додавався до загального бюджету одразу:
+            total_spent: (parseFloat(prevTrip.total_spent || 0) + parseFloat(newEvent.cost || 0)).toString()
+        }));
+        setIsAddEventOpen(false);
+    };
+
+      // Функція підтвердження видалення
+    const handleDeleteConfirm = async () => {
+        if (!itemToDelete) return;
+        setIsDeleting(true);
+        
+        try {
+            if (itemToDelete.itemType === 'expense') {
+                await api.deleteExpense(itemToDelete.id);
+                // Оновлюємо стейт, прибираючи витрату і віднімаючи її ціну від total_spent
+                setTrip(prev => ({
+                    ...prev,
+                    expenses: prev.expenses.filter(e => e.id !== itemToDelete.id),
+                    total_spent: (parseFloat(prev.total_spent || 0) - parseFloat(itemToDelete.amount || 0)).toString()
+                }));
+            } else if (itemToDelete.itemType === 'place') {
+                await api.deletePlace(itemToDelete.id);
+                // Оновлюємо стейт, прибираючи івент
+                setTrip(prev => ({
+                    ...prev,
+                    places: prev.places.filter(p => p.id !== itemToDelete.id),
+                    total_spent: (parseFloat(prev.total_spent || 0) - parseFloat(itemToDelete.cost || 0)).toString()
+                }));
+            }
+            setItemToDelete(null); // Закриваємо модалку
+        } catch (error) {
+            console.error("Failed to delete", error);
+            alert("Oops! Failed to delete this item.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
 
     return (
         <div className="app-wrapper">
@@ -135,7 +184,7 @@ function TripDetailsPage() {
                                     </div>
                                 )}
                             </div>
-                            <button className="btn-primary btn-add">+</button>
+                            <button className="btn-primary btn-add" onClick={() => setIsAddEventOpen(true)}>+</button>
                         </div>
                     )}
                 </div>
@@ -143,7 +192,11 @@ function TripDetailsPage() {
                 {activeTab === 'schedule' ? (
                     <ScheduleTab trip={trip} categoryFilter={categoryFilter} />
                 ) : (
-                    <BudgetTab trip={trip} onAddExpense={() => setIsAddExpenseOpen(true)}/>
+                    <BudgetTab 
+                        trip={trip} 
+                        onAddExpense={() => setIsAddExpenseOpen(true)} 
+                        onDeleteClick={(item) => setItemToDelete(item)} // 👈 ДОДАЄМО ЦЕ
+                    />
                 )}
 
             </div>
@@ -152,6 +205,23 @@ function TripDetailsPage() {
                 onClose={() => setIsAddExpenseOpen(false)}
                 tripId={trip.id}
                 onExpenseAdded={handleExpenseAdded}
+            />
+
+            <AddEventModal 
+                isOpen={isAddEventOpen}
+                onClose={() => setIsAddEventOpen(false)}
+                tripId={trip.id}
+                onEventAdded={handleEventAdded}
+            />
+
+            <ConfirmModal 
+                isOpen={!!itemToDelete}
+                onClose={() => setItemToDelete(null)}
+                onConfirm={handleDeleteConfirm}
+                title="delete item?"
+                message={`Are you sure you want to delete "${itemToDelete?.title}"? This will affect your budget calculation.`}
+                confirmText="delete"
+                isProcessing={isDeleting}
             />
         </div>
     );

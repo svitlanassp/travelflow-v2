@@ -8,7 +8,7 @@
 }
 
 .select-trigger {
-    background: var(--white); /* Поле біле, як ти хотіла */
+    background: var(--purple-light); /* Поле біле, як ти хотіла */
     border: 1px solid var(--purple-light);
     border-radius: var(--radius-btn);
     padding: 8px 12px;

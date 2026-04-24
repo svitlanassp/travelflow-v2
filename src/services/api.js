@@ -74,4 +74,10 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(data)
     }),
+    createPlace: (data) => request('/places/', {
+        method: 'POST',
+        body: JSON.stringify(data)
+    }),
+    deleteExpense: (id) => request(`/expenses/${id}/`, { method: 'DELETE' }),
+    deletePlace: (id) => request(`/places/${id}/`, { method: 'DELETE' }),
 };

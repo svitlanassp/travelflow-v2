@@ -1,14 +1,11 @@
+// src/components/UI/Input.jsx
 import './Input.css'
 
-// Використовуємо ...props, щоб автоматично ловити name, value, onChange та інше
-function Input({ label, ...props }) {
+function Input({ label, as: Component = 'input', ...props }) {
     return (
         <div className="input-group">
             {label && <label className="input-label">{label}</label>}
-            <input
-                className="input-field"
-                {...props} 
-            />
+            <Component className="input-field" {...props} />
         </div>
     )
 }
