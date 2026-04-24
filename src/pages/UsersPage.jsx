@@ -5,7 +5,7 @@ import DeleteIcon from '../icons/delete.svg?react';
 import { api } from '../services/api'
 import { useNavigate } from 'react-router-dom'
 import './UsersPage.css'
-import '../components/UI/Modal.css'
+import ConfirmModal from '../components/UI/ConfirmModal';
  
 function UsersPage() {
     const [users, setUsers] = useState([])
@@ -130,33 +130,20 @@ function UsersPage() {
                 </div>
             </div>
 
-            {isModalOpen && (
-                <div className="modal-overlay" onClick={handleCloseModal}>
-                    <div className="card modal-card" onClick={e => e.stopPropagation()}>
-                        <h2 className="modal-title">Delete user?</h2>
-                        <p className="modal-text">
-                            Are you sure you want to delete <strong>{userToDelete?.username}</strong>? 
-                            This action cannot be undone.
-                        </p>
-                        <div className="modal-actions">
-                            <button 
-                                className="btn-secondary" 
-                                onClick={handleCloseModal}
-                                disabled={isDeleting}
-                            >
-                                cancel
-                            </button>
-                            <button 
-                                className="btn-danger" 
-                                onClick={handleConfirmDelete}
-                                disabled={isDeleting}
-                            >
-                                {isDeleting ? 'deleting...' : 'delete'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <ConfirmModal 
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                onConfirm={handleConfirmDelete}
+                title="Delete user?"
+                message={
+                    <>
+                        Are you sure you want to delete <strong>{userToDelete?.username}</strong>? 
+                        This action cannot be undone.
+                    </>
+                }
+                confirmText="delete"
+                isProcessing={isDeleting}
+            />
         </div>
     )
 }

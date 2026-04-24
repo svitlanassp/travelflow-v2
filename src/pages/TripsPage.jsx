@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Header from '../components/Header/Header'
 import TripCard from '../components/TripCard/TripCard'
 import Widgets from '../components/Widgets/Widgets'
+import AddTripModal from '../components/AddTripModal/AddTripModal';
 import { api } from '../services/api'
 import { Auth } from '../services/auth'
 import './TripsPage.css'
@@ -13,6 +14,8 @@ function TripsPage() {
 
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(null); 
+
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchTrips = async () => {
@@ -81,7 +84,7 @@ function TripsPage() {
                                 ))}
                             </div>
                         </div>
-                        <button className="btn-primary">→ plan</button>
+                        <button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>→ plan</button>
                     </div>
                 )}
 
@@ -91,7 +94,7 @@ function TripsPage() {
                     <div className="empty-state-container full-empty-page">
                         <h2 className="empty-state-title">no trips yet</h2>
                         <p className="empty-state-text">looks like it's time to start planning your first journey</p>
-                        <button className="btn-primary" style={{marginTop: '2rem'}}>→ plan trip</button>
+                        <button className="btn-primary" style={{marginTop: '2rem'}} onClick={() => setIsAddModalOpen(true)}>→ plan trip</button>
                     </div>
                 ) : (
                     <>
@@ -118,6 +121,16 @@ function TripsPage() {
                     </>
                 )}
             </div>
+
+            <AddTripModal 
+                isOpen={isAddModalOpen} 
+                onClose={() => setIsAddModalOpen(false)}
+                onTripAdded={(newTrip) => {
+                    setTrips(prev => [...prev, newTrip]); // Додаємо нову подорож в стейт
+                    setIsAddModalOpen(false); // Закриваємо модалку
+                }}
+            />
+
         </div>
     )
 }

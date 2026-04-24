@@ -65,4 +65,9 @@ export const api = {
     }),
     getTrips: () => request('/trips/'),
     getTrip: (id) => request(`/trips/${id}/`),
+    createTrip: (formData) => request('/trips/', {
+        method: 'POST',
+        body: formData,
+        isFormData: true 
+    }),
 };

@@ -10,7 +10,6 @@ function EventCard({ event }) {
     return (
         <div 
             className="event-card"
-            // Магія тут! Прокидаємо кольори з констант у CSS
             style={{
                 '--event-bg': categoryStyle.bg,
                 '--event-main': categoryStyle.main,

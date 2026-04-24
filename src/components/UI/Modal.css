@@ -12,7 +12,7 @@
     z-index: 1000; 
 }
 
-.modal-card {
+.confirm-card {
     padding: 32px;
     width: 90%;
     max-width: 400px;
@@ -20,14 +20,14 @@
     animation: modalFadeIn 0.3s ease;
 }
 
-.modal-title {
+.confirm-title {
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
     color: var(--text-dark);
     margin-bottom: 8px;
 }
 
-.modal-text {
+.confirm-text {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     color: var(--text-muted);
@@ -35,15 +35,87 @@
     margin-bottom: 24px;
 }
 
-.modal-actions {
+.confirm-actions {
     display: flex;
     gap: 12px;
 }
 
 
-.modal-actions .btn-secondary,
-.modal-actions .btn-danger {
+.confirm-actions .btn-secondary,
+.confirm-actions .btn-danger {
     flex: 1;
+}
+
+/* === FORM MODAL (Новий з шапкою) === */
+.form-modal-card {
+    background: var(--white);
+    width: 90%;
+    max-width: 420px;
+    border-radius: 24px; /* Робимо кругленьким */
+    border: 1px solid var(--purple-main);
+    box-shadow: 0 10px 40px rgba(83, 74, 183, 0.15);
+    overflow: hidden; /* Щоб фіолетова шапка не вилазила за заокруглені кути */
+    animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header-accent {
+    background: var(--purple-main);
+    padding: 32px;
+    text-align: center;
+    position: relative;
+}
+
+.modal-header-title {
+    color: var(--white);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+}
+
+.modal-body {
+    padding: 24px 32px 32px 32px;
+}
+
+/* Допоміжні класи для форм всередині модалки */
+.input-row {
+    display: flex;
+    gap: 12px;
+}
+
+.input-row > * {
+    flex: 1; /* Щоб інпути в рядку ділили місце 50/50 */
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+}
+
+/* Кнопка завантаження фото */
+.upload-photo-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 2px dashed var(--purple-light);
+    border-radius: var(--radius-btn);
+    color: var(--purple-main);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.upload-photo-btn:hover {
+    background: var(--purple-light);
+    border-color: var(--purple-main);
 }
 
 @keyframes modalFadeIn {

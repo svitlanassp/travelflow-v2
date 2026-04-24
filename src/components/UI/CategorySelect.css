@@ -1,0 +1,91 @@
+.category-select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+    position: relative;
+    width: 100%;
+}
+
+.select-trigger {
+    background: var(--white); /* Поле біле, як ти хотіла */
+    border: 1px solid var(--purple-light);
+    border-radius: var(--radius-btn);
+    padding: 8px 12px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.select-trigger:hover, .select-trigger.open {
+    border-color: var(--purple-main);
+}
+
+.selected-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.placeholder {
+    color: var(--purple-muted);
+    font-size: var(--font-size-base);
+    padding-left: 4px;
+}
+
+.select-arrow {
+    font-size: 10px;
+    color: var(--purple-muted);
+    margin-left: 8px;
+}
+
+/* МЕНЮ */
+.select-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--purple-light);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1100;
+    max-height: 250px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.select-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.select-item:hover, .select-item.active {
+    background: var(--hover-bg);
+    color: var(--hover-color);
+    font-weight: var(--font-weight-semibold);
+}
