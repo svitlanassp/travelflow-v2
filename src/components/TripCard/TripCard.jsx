@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom'; 
+import TripActionsMenu from '../UI/TripActionsMenu';
 import './TripCard.css'
 
 const BACKEND_URL = 'http://127.0.0.1:8000';
 
-function TripCard({ trip }) {
+function TripCard({ trip, onEdit, onDelete }) {
     const navigate = useNavigate(); 
 
     const progress = trip.total_budget > 0 
@@ -37,6 +38,13 @@ function TripCard({ trip }) {
             className="trip-card" 
             onClick={() => navigate(`/trip/${trip.id}`)} 
         >
+
+            <TripActionsMenu 
+                variant="pill-horizontal"
+                onEdit={onEdit}
+                onDelete={onDelete}
+            />
+
             <div className="trip-card-image" style={{ backgroundColor: '#F0F0F0' }}>
                 {imageUrl && (
                     <img src={imageUrl} alt={trip.title} />

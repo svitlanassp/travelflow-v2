@@ -205,3 +205,13 @@
     font-size: 18px;
     line-height: 1;
 }
+
+.trip-title-wrapper .trip-actions-container.icon-vertical {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* Показуємо, коли мишка над заголовком (trip-title-wrapper) */
+.trip-title-wrapper:hover .trip-actions-container.icon-vertical {
+    opacity: 1;
+}

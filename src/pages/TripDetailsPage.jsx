@@ -7,6 +7,7 @@ import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
 import EditExpenseModal from '../components/EditExpenseModal/EditExpenseModal';
 import AddEventModal from '../components/AddEventModal/AddEventModal';
 import ConfirmModal from '../components/UI/ConfirmModal';
+import TripActionsMenu from '../components/UI/TripActionsMenu';
 import { api } from '../services/api';
 import { CATEGORY_STYLES } from '../constants/categories'; 
 import './TripDetailsPage.css';
@@ -158,7 +159,11 @@ function TripDetailsPage() {
                         
                         <div className="trip-title-wrapper">
                             <h1 className="trip-title">{trip.title}</h1>
-                            <span className="edit-icon">✎</span>
+                            <TripActionsMenu 
+                                variant="icon-vertical"
+                                onEdit={() => console.log('Edit trip clicked!')}
+                                onDelete={() => console.log('Delete trip clicked!')}
+                            />
                         </div>
 
                         <div className="tabs">
