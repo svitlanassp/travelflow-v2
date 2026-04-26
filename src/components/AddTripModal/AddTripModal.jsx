@@ -42,11 +42,9 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
 
             const newTrip = await api.createTrip(formData);
             
-            // Чистимо форму
             setTripForm({ title: '', country: '', city: '', start_date: '', end_date: '', total_budget: '' });
             setCoverFile(null);
             
-            // Кажемо батьку, що все ок
             onTripAdded(newTrip);
 
         } catch (error) {

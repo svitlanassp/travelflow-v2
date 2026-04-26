@@ -1,4 +1,3 @@
-// src/components/UI/Input.jsx
 import './Input.css'
 
 function Input({ label, as: Component = 'input', ...props }) {

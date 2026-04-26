@@ -77,7 +77,6 @@ function TripDetailsPage() {
         setTrip(prevTrip => ({
             ...prevTrip,
             expenses: [...prevTrip.expenses, newExpense],
-            // Одразу плюсуємо до загальної суми, щоб прогрес-бари перемалювалися
             total_spent: (parseFloat(prevTrip.total_spent || 0) + parseFloat(newExpense.amount)).toString()
         }));
         setIsAddExpenseOpen(false);
@@ -87,13 +86,11 @@ function TripDetailsPage() {
         setTrip(prevTrip => ({
             ...prevTrip,
             places: [...prevTrip.places, newEvent],
-            // Якщо ти хочеш, щоб cost івенту теж додавався до загального бюджету одразу:
             total_spent: (parseFloat(prevTrip.total_spent || 0) + parseFloat(newEvent.cost || 0)).toString()
         }));
         setIsAddEventOpen(false);
     };
 
-      // Функція підтвердження видалення
     const handleDeleteConfirm = async () => {
         if (!itemToDelete) return;
         setIsDeleting(true);
@@ -101,7 +98,6 @@ function TripDetailsPage() {
         try {
             if (itemToDelete.itemType === 'expense') {
                 await api.deleteExpense(itemToDelete.id);
-                // Оновлюємо стейт, прибираючи витрату і віднімаючи її ціну від total_spent
                 setTrip(prev => ({
                     ...prev,
                     expenses: prev.expenses.filter(e => e.id !== itemToDelete.id),
@@ -109,14 +105,13 @@ function TripDetailsPage() {
                 }));
             } else if (itemToDelete.itemType === 'place') {
                 await api.deletePlace(itemToDelete.id);
-                // Оновлюємо стейт, прибираючи івент
                 setTrip(prev => ({
                     ...prev,
                     places: prev.places.filter(p => p.id !== itemToDelete.id),
                     total_spent: (parseFloat(prev.total_spent || 0) - parseFloat(itemToDelete.cost || 0)).toString()
                 }));
             }
-            setItemToDelete(null); // Закриваємо модалку
+            setItemToDelete(null); 
         } catch (error) {
             console.error("Failed to delete", error);
             alert("Oops! Failed to delete this item.");
@@ -195,7 +190,7 @@ function TripDetailsPage() {
                     <BudgetTab 
                         trip={trip} 
                         onAddExpense={() => setIsAddExpenseOpen(true)} 
-                        onDeleteClick={(item) => setItemToDelete(item)} // 👈 ДОДАЄМО ЦЕ
+                        onDeleteClick={(item) => setItemToDelete(item)}
                     />
                 )}
 

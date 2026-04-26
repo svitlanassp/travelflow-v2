@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import BaseModal from '../UI/BaseModal';
 import Input from '../UI/Input';
-import CategorySelect from '../UI/CategorySelect'; // Наш новий крутий дропдаун
+import CategorySelect from '../UI/CategorySelect'; 
 import { api } from '../../services/api';
 
 function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded }) {
@@ -29,17 +29,15 @@ function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded }) {
             }
 
             const expenseData = {
-                trip: tripId, // Передаємо ID подорожі
+                trip: tripId, 
                 title: form.title,
                 category: form.category,
                 amount: parseFloat(form.amount),
-                date: form.date || null // Дата опціональна
+                date: form.date || null 
             };
 
-            // Викликаємо API
             const newExpense = await api.createExpense(expenseData);
             
-            // Чистимо форму і кажемо сторінці, що все ок
             setForm({ title: '', category: '', date: '', amount: '' });
             onExpenseAdded(newExpense);
 
@@ -83,7 +81,6 @@ function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded }) {
                 />
             </div>
 
-            {/* Категорія тепер знизу! */}
             <CategorySelect 
                 label="category" 
                 value={form.category} 

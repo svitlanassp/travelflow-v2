@@ -46,12 +46,12 @@
     flex: 1;
 }
 
-/* === FORM MODAL (Новий з шапкою) === */
+/* === FORM MODAL === */
 .form-modal-card {
     background: var(--white);
     width: 90%;
     max-width: 420px;
-    border-radius: 24px; /* Робимо кругленьким */
+    border-radius: 24px; 
     border: 1px solid var(--purple-main);
     box-shadow: 0 10px 40px rgba(83, 74, 183, 0.15);
     animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -77,14 +77,13 @@
     padding: 24px 32px 32px 32px;
 }
 
-/* Допоміжні класи для форм всередині модалки */
 .input-row {
     display: flex;
     gap: 12px;
 }
 
 .input-row > * {
-    flex: 1; /* Щоб інпути в рядку ділили місце 50/50 */
+    flex: 1;
 }
 
 .modal-footer {
@@ -94,7 +93,6 @@
     margin-top: 24px;
 }
 
-/* Кнопка завантаження фото */
 .upload-photo-btn {
     width: 100%;
     padding: 12px;

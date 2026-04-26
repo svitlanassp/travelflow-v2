@@ -6,7 +6,6 @@ function CategorySelect({ label, value, onChange }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Закриваємо при кліку зовні
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -17,7 +16,6 @@ function CategorySelect({ label, value, onChange }) {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // Знаходимо стиль поточної вибраної категорії
     const selectedCategory = CATEGORY_STYLES[value];
 
     return (

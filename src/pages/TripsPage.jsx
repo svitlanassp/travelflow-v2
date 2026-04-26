@@ -126,8 +126,8 @@ function TripsPage() {
                 isOpen={isAddModalOpen} 
                 onClose={() => setIsAddModalOpen(false)}
                 onTripAdded={(newTrip) => {
-                    setTrips(prev => [...prev, newTrip]); // Додаємо нову подорож в стейт
-                    setIsAddModalOpen(false); // Закриваємо модалку
+                    setTrips(prev => [...prev, newTrip]); 
+                    setIsAddModalOpen(false); 
                 }}
             />
 
