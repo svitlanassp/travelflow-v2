@@ -1,7 +1,7 @@
 import { getCategoryStyle, CATEGORY_STYLES } from '../../constants/categories';
 import './BudgetTab.css';
 
-function BudgetTab({ trip, onAddExpense, onDeleteClick }) {
+function BudgetTab({ trip, onAddExpense, onDeleteClick, onEditClick }) {
     const totalBudget = parseFloat(trip.total_budget) || 0;
     const totalSpent = parseFloat(trip.total_spent) || 0;
     const remaining = totalBudget - totalSpent;
@@ -136,7 +136,7 @@ function BudgetTab({ trip, onAddExpense, onDeleteClick }) {
                             allTransactions.map(item => {
                                 const style = getCategoryStyle(item.category);
                                 return (
-                                    <div key={`${item.itemType}-${item.id}`} className="expense-item">
+                                    <div key={`${item.itemType}-${item.id}`} className="expense-item" onClick={() => onEditClick(item)}>
                                         <div className="expense-item-left">
                                             <div className="expense-icon" style={{ backgroundColor: style.bg, color: style.main }}>
                                                 {style.icon}
@@ -157,7 +157,10 @@ function BudgetTab({ trip, onAddExpense, onDeleteClick }) {
                                             
                                             <button 
                                                 className="delete-expense-btn" 
-                                                onClick={() => onDeleteClick(item)}
+                                                onClick={(e) => {
+                                                    e.stopPropagation(); 
+                                                    onDeleteClick(item);
+                                                }}
                                             >
                                                 ×
                                             </button>

@@ -80,4 +80,8 @@ export const api = {
     }),
     deleteExpense: (id) => request(`/expenses/${id}/`, { method: 'DELETE' }),
     deletePlace: (id) => request(`/places/${id}/`, { method: 'DELETE' }),
+    updateExpense: (id, data) => request(`/expenses/${id}/`, {
+        method: 'PUT',
+        body: JSON.stringify(data)
+    }),
 };

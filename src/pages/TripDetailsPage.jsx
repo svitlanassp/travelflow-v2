@@ -4,6 +4,7 @@ import Header from '../components/Header/Header';
 import ScheduleTab from '../components/ScheduleTab/ScheduleTab';
 import BudgetTab from '../components/BudgetTab/BudgetTab';
 import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
+import EditExpenseModal from '../components/EditExpenseModal/EditExpenseModal';
 import AddEventModal from '../components/AddEventModal/AddEventModal';
 import ConfirmModal from '../components/UI/ConfirmModal';
 import { api } from '../services/api';
@@ -27,6 +28,8 @@ function TripDetailsPage() {
 
     const [itemToDelete, setItemToDelete] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
+
+    const [expenseToEdit, setExpenseToEdit] = useState(null);
 
     useEffect(() => {
         const fetchTripDetails = async () => {
@@ -120,6 +123,29 @@ function TripDetailsPage() {
         }
     };
 
+    const handleEditClick = (item) => {
+        if (item.itemType === 'expense') {
+            setExpenseToEdit(item);
+        } else if (item.itemType === 'place') {
+            // ТУТ В МАЙБУТНЬОМУ БУДЕ: setEventToEdit(item);
+            console.log("Відкриваємо кольорову модалку Edit Event для:", item.title);
+        }
+    };
+
+    const handleExpenseUpdated = (updatedExpense) => {
+        setTrip(prevTrip => {
+            const oldExpense = prevTrip.expenses.find(e => e.id === updatedExpense.id);
+            const priceDifference = parseFloat(updatedExpense.amount) - parseFloat(oldExpense.amount);
+
+            return {
+                ...prevTrip,
+                expenses: prevTrip.expenses.map(e => e.id === updatedExpense.id ? updatedExpense : e),
+                total_spent: (parseFloat(prevTrip.total_spent || 0) + priceDifference).toString()
+            };
+        });
+        setExpenseToEdit(null); 
+    };
+
 
     return (
         <div className="app-wrapper">
@@ -191,6 +217,7 @@ function TripDetailsPage() {
                         trip={trip} 
                         onAddExpense={() => setIsAddExpenseOpen(true)} 
                         onDeleteClick={(item) => setItemToDelete(item)}
+                        onEditClick={handleEditClick}
                     />
                 )}
 
@@ -217,6 +244,13 @@ function TripDetailsPage() {
                 message={`Are you sure you want to delete "${itemToDelete?.title}"? This will affect your budget calculation.`}
                 confirmText="delete"
                 isProcessing={isDeleting}
+            />
+
+            <EditExpenseModal 
+                isOpen={!!expenseToEdit}
+                onClose={() => setExpenseToEdit(null)}
+                expenseData={expenseToEdit}
+                onExpenseUpdated={handleExpenseUpdated}
             />
         </div>
     );
