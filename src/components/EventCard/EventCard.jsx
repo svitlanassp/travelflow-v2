@@ -1,7 +1,7 @@
 import { getCategoryStyle } from '../../constants/categories';
 import './EventCard.css';
 
-function EventCard({ event }) {
+function EventCard({ event, onClick }) {
     const categoryStyle = getCategoryStyle(event.category);
     const timeString = event.visit_time ? event.visit_time.slice(0, 5) : null;
     const cost = parseFloat(event.cost);
@@ -10,6 +10,7 @@ function EventCard({ event }) {
     return (
         <div 
             className="event-card"
+            onClick={onClick}
             style={{
                 '--event-bg': categoryStyle.bg,
                 '--event-main': categoryStyle.main,

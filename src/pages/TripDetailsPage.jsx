@@ -7,6 +7,7 @@ import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
 import EditExpenseModal from '../components/EditExpenseModal/EditExpenseModal';
 import AddEventModal from '../components/AddEventModal/AddEventModal';
 import EditTripModal from '../components/EditTripModal/EditTripModal';
+import EditEventModal from '../components/EditEventModal/EditEventModal';
 import ConfirmModal from '../components/UI/ConfirmModal';
 import TripActionsMenu from '../components/UI/TripActionsMenu';
 import CategoryFilterDropdown from '../components/UI/CategoryFilterDropdown';
@@ -32,6 +33,7 @@ function TripDetailsPage() {
     const [isDeleting, setIsDeleting] = useState(false);
 
     const [expenseToEdit, setExpenseToEdit] = useState(null);
+    const [eventToEdit, setEventToEdit] = useState(null); // 👈 НОВИЙ СТЕЙТ
 
     const [isEditTripOpen, setIsEditTripOpen] = useState(false);
     const [isDeleteTripOpen, setIsDeleteTripOpen] = useState(false);
@@ -133,8 +135,7 @@ function TripDetailsPage() {
         if (item.itemType === 'expense') {
             setExpenseToEdit(item);
         } else if (item.itemType === 'place') {
-            // ТУТ В МАЙБУТНЬОМУ БУДЕ: setEventToEdit(item);
-            console.log("Відкриваємо кольорову модалку Edit Event для:", item.title);
+            setEventToEdit(item);
         }
     };
 
@@ -150,6 +151,20 @@ function TripDetailsPage() {
             };
         });
         setExpenseToEdit(null); 
+    };
+
+    const handleEventUpdated = (updatedEvent) => {
+        setTrip(prevTrip => {
+            const oldEvent = prevTrip.places.find(p => p.id === updatedEvent.id);
+            const priceDifference = parseFloat(updatedEvent.cost || 0) - parseFloat(oldEvent.cost || 0);
+
+            return {
+                ...prevTrip,
+                places: prevTrip.places.map(p => p.id === updatedEvent.id ? updatedEvent : p),
+                total_spent: (parseFloat(prevTrip.total_spent || 0) + priceDifference).toString()
+            };
+        });
+        setEventToEdit(null); 
     };
 
     const handleTripUpdated = (updatedTrip) => {
@@ -215,7 +230,11 @@ function TripDetailsPage() {
                 </div>
 
                 {activeTab === 'schedule' ? (
-                    <ScheduleTab trip={trip} categoryFilter={categoryFilter} />
+                    <ScheduleTab 
+                        trip={trip} 
+                        categoryFilter={categoryFilter} 
+                        onEventClick={handleEditClick} // 👈 ДОДАЛИ
+                    />
                 ) : (
                     <BudgetTab 
                         trip={trip} 
@@ -277,6 +296,14 @@ function TripDetailsPage() {
                 }
                 confirmText="delete trip"
                 isProcessing={isDeletingTrip}
+            />
+
+            <EditEventModal 
+                isOpen={!!eventToEdit}
+                onClose={() => setEventToEdit(null)}
+                eventData={eventToEdit}
+                onEventUpdated={handleEventUpdated}
+                onDeleteClick={(item) => setItemToDelete(item)} // Перекидаємо на конфірм
             />
         </div>
     );

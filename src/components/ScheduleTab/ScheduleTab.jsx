@@ -1,7 +1,7 @@
 import EventCard from '../EventCard/EventCard';
 import './ScheduleTab.css';
 
-function ScheduleTab({ trip, categoryFilter }) {
+function ScheduleTab({ trip, categoryFilter, onEventClick }) {
     
     const getDatesBetween = (startStr, endStr) => {
         const dates = [];
@@ -46,7 +46,12 @@ function ScheduleTab({ trip, categoryFilter }) {
                                 <p className="no-events">no plans yet</p>
                             ) : (
                                 dayEvents.map(event => (
-                                    <EventCard key={event.id} event={event} />
+                                    <EventCard 
+                                        key={event.id} 
+                                        event={event} 
+                                        // 👈 ДОДАЄМО: передаємо івент + прапорець
+                                        onClick={() => onEventClick({ ...event, itemType: 'place' })} 
+                                    />
                                 ))
                             )}
                         </div>

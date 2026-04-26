@@ -1,0 +1,133 @@
+/* === ОВЕРЛЕЙ === */
+.event-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px); 
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000; 
+}
+
+/* === КАРТКА З ДИНАМІЧНИМИ КОЛЬОРАМИ === */
+.event-modal-card {
+    width: 90%;
+    max-width: 440px;
+    border-radius: 24px;
+    background-color: var(--theme-bg); /* Беремо з інлайн-стилю! */
+    border: 2px solid var(--theme-dark);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    /* Поки що проста плавна анімація появи, хайпову додамо потім! */
+    animation: eventFadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+
+/* === ШАПКА === */
+.event-modal-header {
+    background-color: var(--theme-main);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* Прозорий інпут для назви, який виглядає як заголовок */
+.event-title-input {
+    background: transparent;
+    border: none;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-dark);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    outline: none;
+    width: 100%;
+    padding: 0;
+}
+
+.event-title-input::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.close-event-btn {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--text-dark);
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.close-event-btn:hover { opacity: 1; }
+
+/* === ТІЛО === */
+.event-modal-body {
+    padding: 24px 32px;
+}
+
+/* Магія: робимо всі стандартні інпути БІЛИМИ всередині цієї картки */
+.event-modal-card .input-field {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--text-dark);
+}
+.event-modal-card .input-field:focus {
+    box-shadow: 0 0 0 2px var(--theme-main); /* Фокус під колір категорії */
+}
+
+/* Робимо білим і наш дропдаун */
+.event-modal-card .select-trigger {
+    background-color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+/* === ФУТЕР === */
+.event-modal-footer {
+    padding: 0 32px 32px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-delete-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--theme-dark);
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.event-delete-btn:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.event-save-btn {
+    background: #ffffff;
+    color: var(--theme-dark);
+    border: 2px solid var(--theme-dark);
+    border-radius: var(--radius-btn);
+    padding: 10px 24px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.event-save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.event-save-btn:active { transform: translateY(0); }
+
+@keyframes eventFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
