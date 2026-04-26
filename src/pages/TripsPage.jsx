@@ -3,6 +3,8 @@ import Header from '../components/Header/Header'
 import TripCard from '../components/TripCard/TripCard'
 import Widgets from '../components/Widgets/Widgets'
 import AddTripModal from '../components/AddTripModal/AddTripModal';
+import ConfirmModal from '../components/UI/ConfirmModal';
+import EditTripModal from '../components/EditTripModal/EditTripModal';
 import { api } from '../services/api'
 import { Auth } from '../services/auth'
 import './TripsPage.css'
@@ -16,6 +18,25 @@ function TripsPage() {
     const [selectedMonth, setSelectedMonth] = useState(null); 
 
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+    const [tripToEdit, setTripToEdit] = useState(null);
+    const [tripToDelete, setTripToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+    
+    const handleConfirmDelete = async () => {
+        if (!tripToDelete) return;
+        try {
+            setIsDeleting(true);
+            await api.deleteTrip(tripToDelete.id);
+            setTrips(prev => prev.filter(t => t.id !== tripToDelete.id)); // Прибираємо з масиву
+            setTripToDelete(null); // Закриваємо модалку
+        } catch (error) {
+            console.error("Failed to delete trip:", error);
+            alert("Could not delete the trip.");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     useEffect(() => {
         const fetchTrips = async () => {
@@ -106,7 +127,12 @@ function TripsPage() {
                         ) : (
                             <div className="trips-list">
                                 {filteredTrips.map(trip => (
-                                    <TripCard key={trip.id} trip={trip} />
+                                    <TripCard 
+                                        key={trip.id} 
+                                        trip={trip} 
+                                        onEdit={() => setTripToEdit(trip)} 
+                                        onDelete={() => setTripToDelete(trip)}
+                                    />
                                 ))}
                             </div>
                         )}
@@ -129,6 +155,32 @@ function TripsPage() {
                     setTrips(prev => [...prev, newTrip]); 
                     setIsAddModalOpen(false); 
                 }}
+            />
+
+            <EditTripModal
+                isOpen={!!tripToEdit}
+                onClose={() => setTripToEdit(null)}
+                tripData={tripToEdit}
+                onTripUpdated={(updatedTrip) => {
+                    setTrips(prev => prev.map(t => t.id === updatedTrip.id ? updatedTrip : t));
+                    setTripToEdit(null);
+                }}
+            />
+
+            {/* НОВА МОДАЛКА: Підтвердження видалення */}
+            <ConfirmModal 
+                isOpen={!!tripToDelete}
+                onClose={() => setTripToDelete(null)}
+                onConfirm={handleConfirmDelete}
+                title="delete trip?"
+                message={
+                    <>
+                        Are you sure you want to delete <strong>{tripToDelete?.title}</strong>? 
+                        This will erase all schedule and budget data forever!
+                    </>
+                }
+                confirmText="delete trip"
+                isProcessing={isDeleting}
             />
 
         </div>

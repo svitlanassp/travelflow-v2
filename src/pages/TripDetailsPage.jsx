@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import ScheduleTab from '../components/ScheduleTab/ScheduleTab';
@@ -6,8 +6,10 @@ import BudgetTab from '../components/BudgetTab/BudgetTab';
 import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
 import EditExpenseModal from '../components/EditExpenseModal/EditExpenseModal';
 import AddEventModal from '../components/AddEventModal/AddEventModal';
+import EditTripModal from '../components/EditTripModal/EditTripModal';
 import ConfirmModal from '../components/UI/ConfirmModal';
 import TripActionsMenu from '../components/UI/TripActionsMenu';
+import CategoryFilterDropdown from '../components/UI/CategoryFilterDropdown';
 import { api } from '../services/api';
 import { CATEGORY_STYLES } from '../constants/categories'; 
 import './TripDetailsPage.css';
@@ -23,7 +25,6 @@ function TripDetailsPage() {
     
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
     const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
     const [isAddEventOpen, setIsAddEventOpen] = useState(false);
 
@@ -31,6 +32,10 @@ function TripDetailsPage() {
     const [isDeleting, setIsDeleting] = useState(false);
 
     const [expenseToEdit, setExpenseToEdit] = useState(null);
+
+    const [isEditTripOpen, setIsEditTripOpen] = useState(false);
+    const [isDeleteTripOpen, setIsDeleteTripOpen] = useState(false);
+    const [isDeletingTrip, setIsDeletingTrip] = useState(false);
 
     useEffect(() => {
         const fetchTripDetails = async () => {
@@ -147,6 +152,25 @@ function TripDetailsPage() {
         setExpenseToEdit(null); 
     };
 
+    const handleTripUpdated = (updatedTrip) => {
+        setTrip(updatedTrip); // Просто оновлюємо весь об'єкт подорожі
+        setIsEditTripOpen(false);
+    };
+
+    const handleTripDelete = async () => {
+        try {
+            setIsDeletingTrip(true);
+            await api.deleteTrip(trip.id);
+            // Якщо видалення успішне — викидаємо юзера назад на сторінку всіх подорожей
+            navigate('/trips'); 
+        } catch (error) {
+            console.error("Failed to delete trip:", error);
+            alert("Oops! Could not delete this trip.");
+        } finally {
+            setIsDeletingTrip(false);
+        }
+    };
+
 
     return (
         <div className="app-wrapper">
@@ -161,8 +185,8 @@ function TripDetailsPage() {
                             <h1 className="trip-title">{trip.title}</h1>
                             <TripActionsMenu 
                                 variant="icon-vertical"
-                                onEdit={() => console.log('Edit trip clicked!')}
-                                onDelete={() => console.log('Delete trip clicked!')}
+                                onEdit={() => setIsEditTripOpen(true)} // 👈 ТУТ
+                                onDelete={() => setIsDeleteTripOpen(true)} // 👈 І ТУТ
                             />
                         </div>
 
@@ -181,35 +205,10 @@ function TripDetailsPage() {
 
                     {activeTab === 'schedule' && (
                         <div className="subheader-right">
-                            <div className="custom-dropdown" ref={dropdownRef}>
-                                <button 
-                                    className="custom-dropdown-trigger"
-                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                >
-                                    <span className="dropdown-icon">{selectedOption.icon}</span>
-                                    <span className="dropdown-label">{selectedOption.label}</span>
-                                    <span className="dropdown-arrow">▼</span>
-                                </button>
-
-                                {isDropdownOpen && (
-                                    <div className="custom-dropdown-menu">
-                                        {filterOptions.map(option => (
-                                            <button
-                                                key={option.id}
-                                                className={`custom-dropdown-item ${categoryFilter === option.id ? 'active' : ''}`}
-                                                onClick={() => {
-                                                    setCategoryFilter(option.id);
-                                                    setIsDropdownOpen(false);
-                                                }}
-                                                style={{ '--hover-bg': option.bg, '--item-color': option.dark }}
-                                            >
-                                                <span className="item-icon">{option.icon}</span>
-                                                <span className="item-label">{option.label}</span>
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            <CategoryFilterDropdown 
+                                categoryFilter={categoryFilter} 
+                                setCategoryFilter={setCategoryFilter} 
+                            />
                             <button className="btn-primary btn-add" onClick={() => setIsAddEventOpen(true)}>+</button>
                         </div>
                     )}
@@ -256,6 +255,28 @@ function TripDetailsPage() {
                 onClose={() => setExpenseToEdit(null)}
                 expenseData={expenseToEdit}
                 onExpenseUpdated={handleExpenseUpdated}
+            />
+
+            <EditTripModal 
+                isOpen={isEditTripOpen}
+                onClose={() => setIsEditTripOpen(false)}
+                tripData={trip}
+                onTripUpdated={handleTripUpdated}
+            />
+
+            <ConfirmModal 
+                isOpen={isDeleteTripOpen}
+                onClose={() => setIsDeleteTripOpen(false)}
+                onConfirm={handleTripDelete}
+                title="delete trip?"
+                message={
+                    <>
+                        Are you sure you want to delete <strong>{trip.title}</strong>? 
+                        This will erase all schedule and budget data forever!
+                    </>
+                }
+                confirmText="delete trip"
+                isProcessing={isDeletingTrip}
             />
         </div>
     );

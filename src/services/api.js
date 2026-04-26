@@ -70,6 +70,14 @@ export const api = {
         body: formData,
         isFormData: true 
     }),
+    updateTrip: (id, formData) => request(`/trips/${id}/`, {
+        method: 'PUT',
+        body: formData,
+        isFormData: true // Теж обов'язково, бо ми можемо міняти фотку!
+    }),
+    deleteTrip: (id) => request(`/trips/${id}/`, {
+        method: 'DELETE'
+    }),
     createExpense: (data) => request('/expenses/', {
         method: 'POST',
         body: JSON.stringify(data)
@@ -77,6 +85,10 @@ export const api = {
     createPlace: (data) => request('/places/', {
         method: 'POST',
         body: JSON.stringify(data)
+    }),
+    updatePlace: (id, data) => request('/places/${id}/', {
+        method: 'PUT',
+        body: JSON.stringify(data) 
     }),
     deleteExpense: (id) => request(`/expenses/${id}/`, { method: 'DELETE' }),
     deletePlace: (id) => request(`/places/${id}/`, { method: 'DELETE' }),
