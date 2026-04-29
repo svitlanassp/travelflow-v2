@@ -256,6 +256,8 @@ function TripDetailsPage() {
                 isOpen={isAddEventOpen}
                 onClose={() => setIsAddEventOpen(false)}
                 tripId={trip.id}
+                minDate={trip.start_date} 
+                maxDate={trip.end_date} 
                 onEventAdded={handleEventAdded}
             />
 
@@ -304,6 +306,8 @@ function TripDetailsPage() {
                     isOpen={!!eventToEdit}
                     onClose={() => setEventToEdit(null)}
                     eventData={eventToEdit}
+                    minDate={trip.start_date} 
+                    maxDate={trip.end_date}  
                     onEventUpdated={handleEventUpdated}
                     onDeleteClick={(item) => setItemToDelete(item)}
                 />

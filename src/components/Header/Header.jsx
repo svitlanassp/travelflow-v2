@@ -36,7 +36,10 @@ function Header({ hideAvatar = false }) {
 
     return (
         <header className="header-card">
-            <div className="header-logo">
+            <div 
+                className="header-logo" 
+                onClick={() => navigate('/trips')} 
+            >
                 <img src={logo} alt="logo" className="logo-icon" />
                 <span className="logo-text">travelflow</span>
             </div>

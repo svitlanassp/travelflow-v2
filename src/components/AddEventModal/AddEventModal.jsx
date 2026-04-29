@@ -4,7 +4,7 @@ import Input from '../UI/Input';
 import CategorySelect from '../UI/CategorySelect';
 import { api } from '../../services/api';
 
-function AddEventModal({ isOpen, onClose, tripId, onEventAdded }) {
+function AddEventModal({ isOpen, onClose, tripId, minDate, maxDate, onEventAdded }) {
     const [form, setForm] = useState({
         title: '',
         visit_date: '',
@@ -74,6 +74,8 @@ function AddEventModal({ isOpen, onClose, tripId, onEventAdded }) {
                     type="date" 
                     value={form.visit_date} 
                     onChange={handleInputChange} 
+                    min={minDate}
+                    max={maxDate}
                 />
                 <Input 
                     label="time (optional)" 

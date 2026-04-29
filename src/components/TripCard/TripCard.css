@@ -40,7 +40,7 @@
 
 .trip-card-content {
     padding: 12px 14px;
-    min-height: 120px;
+    min-height: 100px;
 
     flex-grow: 1;   
     

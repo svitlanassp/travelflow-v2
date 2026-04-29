@@ -4,15 +4,15 @@ import Input from '../UI/Input';
 import CategorySelect from '../UI/CategorySelect';
 import { CATEGORY_STYLES } from '../../constants/categories';
 import { api } from '../../services/api';
-import './EventModal.css'; // Наш новий CSS
+import './EventModal.css'; 
 
-function EditEventModal({ isOpen, onClose, eventData, onEventUpdated, onDeleteClick }) {
+function EditEventModal({ isOpen, onClose, eventData, minDate, maxDate, onEventUpdated, onDeleteClick }) {
     const [form, setForm] = useState({
         title: '',
         visit_date: '',
         visit_time: '',
         cost: '',
-        category: 'others', // Дефолт, щоб не падало, якщо що
+        category: 'others',
         notes: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +54,6 @@ function EditEventModal({ isOpen, onClose, eventData, onEventUpdated, onDeleteCl
                 notes: form.notes || ''
             };
 
-            // Оновлюємо через API
             const updatedEvent = await api.updatePlace(eventData.id, updatedData);
             onEventUpdated(updatedEvent);
 
@@ -68,7 +67,6 @@ function EditEventModal({ isOpen, onClose, eventData, onEventUpdated, onDeleteCl
 
     if (!isOpen) return null;
 
-    // Дістаємо стилі поточної категорії (якщо юзер вибрав іншу - модалка одразу перефарбується!)
     const currentStyle = CATEGORY_STYLES[form.category] || CATEGORY_STYLES['others'];
 
     return (
@@ -83,14 +81,12 @@ function EditEventModal({ isOpen, onClose, eventData, onEventUpdated, onDeleteCl
                 layoutId={`event-card-${eventData?.id}`}
                 className="event-modal-card" 
                 onClick={e => e.stopPropagation()}
-                // МАГІЯ КОЛЬОРІВ ТУТ:
                 style={{ 
                     '--theme-bg': currentStyle.bg, 
                     '--theme-main': currentStyle.main, 
                     '--theme-dark': currentStyle.dark 
                 }}
             >
-                {/* ШАПКА З ІНПУТОМ */}
                 <div className="event-modal-header">
                     <input 
                         className="event-title-input"
@@ -103,10 +99,9 @@ function EditEventModal({ isOpen, onClose, eventData, onEventUpdated, onDeleteCl
                     <button className="close-event-btn" onClick={onClose}>×</button>
                 </div>
 
-                {/* ТІЛО (Всі Input стануть білими завдяки CSS вище) */}
                 <div className="event-modal-body">
                     <div className="input-row">
-                        <Input label="date" name="visit_date" type="date" value={form.visit_date} onChange={handleInputChange} />
+                        <Input label="date" name="visit_date" type="date" value={form.visit_date} onChange={handleInputChange} min={minDate} max={maxDate} />
                         <Input label="time (optional)" name="visit_time" type="time" value={form.visit_time} onChange={handleInputChange} />
                     </div>
 
@@ -117,13 +112,12 @@ function EditEventModal({ isOpen, onClose, eventData, onEventUpdated, onDeleteCl
                     <Input as="textarea" label="notes & links" name="notes" placeholder="tickets, links..." value={form.notes} onChange={handleInputChange} />
                 </div>
 
-                {/* ФУТЕР */}
                 <div className="event-modal-footer">
                     <button 
                         className="event-delete-btn" 
                         onClick={() => {
-                            onClose(); // Закриваємо модалку едіту
-                            onDeleteClick(eventData); // Відкриваємо модалку підтвердження видалення
+                            onClose(); 
+                            onDeleteClick(eventData); 
                         }}
                         title="Delete event"
                     >
