@@ -62,7 +62,7 @@
     padding-bottom: 12px;
     scrollbar-width: none;
     min-height: 275px;
-    align-items: flex-start;
+    align-items: stretch;
 }
 
 .trips-list::-webkit-scrollbar {

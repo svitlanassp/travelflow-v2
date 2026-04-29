@@ -8,6 +8,9 @@
     flex-shrink: 0;
     position: relative;
 
+    display: flex;
+    flex-direction: column;
+
     cursor: pointer;
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
 }
@@ -38,6 +41,11 @@
 .trip-card-content {
     padding: 12px 14px;
     min-height: 120px;
+
+    flex-grow: 1;   
+    
+    display: flex;
+    flex-direction: column;
 }
 
 .trip-card-title {
@@ -45,6 +53,10 @@
     font-weight: var(--font-weight-semibold);
     color: var(--text-dark);
     margin-bottom: 4px;
+}
+
+.trip-card-location {
+    margin-top: auto;
 }
 
 .trip-card-location,
@@ -76,4 +88,12 @@
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     color: var(--purple-main);
+}
+
+.trip-card-title,
+.trip-card-location {
+    white-space: nowrap;      
+    overflow: hidden;        
+    text-overflow: ellipsis;  
+    width: 100%;              
 }
