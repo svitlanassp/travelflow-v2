@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import Input from '../UI/Input';
 import CategorySelect from '../UI/CategorySelect';
 import { CATEGORY_STYLES } from '../../constants/categories';
@@ -71,8 +72,15 @@ function EditEventModal({ isOpen, onClose, eventData, onEventUpdated, onDeleteCl
     const currentStyle = CATEGORY_STYLES[form.category] || CATEGORY_STYLES['others'];
 
     return (
-        <div className="event-modal-overlay" onClick={onClose}>
-            <div 
+        <motion.div 
+            className="event-modal-overlay" 
+            onClick={onClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+        >
+            <motion.div 
+                layoutId={`event-card-${eventData?.id}`}
                 className="event-modal-card" 
                 onClick={e => e.stopPropagation()}
                 // МАГІЯ КОЛЬОРІВ ТУТ:
@@ -131,8 +139,8 @@ function EditEventModal({ isOpen, onClose, eventData, onEventUpdated, onDeleteCl
                     </button>
                 </div>
 
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 

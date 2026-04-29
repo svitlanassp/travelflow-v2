@@ -5,7 +5,6 @@ function CategoryFilterDropdown({ categoryFilter, setCategoryFilter }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Закриваємо по кліку зовні
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -16,7 +15,6 @@ function CategoryFilterDropdown({ categoryFilter, setCategoryFilter }) {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // Формуємо опції
     const filterOptions = [
         { id: 'all', label: 'all categories', icon: '🌍', bg: 'var(--purple-light)', main: 'var(--purple-main)' },
         ...Object.entries(CATEGORY_STYLES).map(([key, value]) => ({ id: key, ...value }))

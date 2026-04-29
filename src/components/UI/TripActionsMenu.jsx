@@ -3,13 +3,11 @@ import EditIcon from '../../icons/edit.svg?react';
 import DeleteIcon from '../../icons/delete.svg?react';
 import './TripActionsMenu.css';
 
-// variant може бути 'pill-horizontal' або 'icon-vertical'
 function TripActionsMenu({ variant = 'pill-horizontal', onEdit, onDelete }) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef(null);
     const timeoutRef = useRef(null);
 
-    // Закриття по кліку зовні
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -27,10 +25,9 @@ function TripActionsMenu({ variant = 'pill-horizontal', onEdit, onDelete }) {
     const handleMouseLeave = () => {
         timeoutRef.current = setTimeout(() => {
             setIsOpen(false);
-        }, 200); // 200 мс — ідеально, щоб перенести мишку
+        }, 200); 
     };
 
-    // Важливо: зупиняємо propagation, щоб клік по меню не відкривав сторінку TripDetails
     const handleActionClick = (e, action) => {
         e.stopPropagation();
         setIsOpen(false);
@@ -42,13 +39,13 @@ function TripActionsMenu({ variant = 'pill-horizontal', onEdit, onDelete }) {
         <div className={`trip-actions-container ${variant}`} 
              ref={menuRef} 
              onMouseLeave={() => setIsOpen(false)}
-             onMouseEnter={handleMouseEnter} // 👈 ДОДАЛИ
-             onMouseLeave={handleMouseLeave} // 👈 ДОДАЛИ
+             onMouseEnter={handleMouseEnter} 
+             onMouseLeave={handleMouseLeave} 
         >
             <button 
                 className={`actions-trigger ${variant}`}
                 onClick={(e) => {
-                    e.stopPropagation(); // Не відкриваємо картку
+                    e.stopPropagation(); 
                     setIsOpen(!isOpen);
                 }}
             >
@@ -61,7 +58,6 @@ function TripActionsMenu({ variant = 'pill-horizontal', onEdit, onDelete }) {
                         className="action-item edit-action"
                         onClick={(e) => handleActionClick(e, 'edit')}
                     >
-                        {/* Використовуй свої іконки, якщо маєш, або просто текст */}
                         <span className="action-icon">✎</span> edit
                     </button>
                     <button 

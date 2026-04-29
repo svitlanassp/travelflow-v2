@@ -13,12 +13,10 @@
     width: 90%;
     max-width: 440px;
     border-radius: 24px;
-    background-color: var(--theme-bg); /* Беремо з інлайн-стилю! */
+    background-color: var(--theme-bg); 
     border: 2px solid var(--theme-dark);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
     overflow: hidden;
-    /* Поки що проста плавна анімація появи, хайпову додамо потім! */
-    animation: eventFadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
 /* === ШАПКА === */
@@ -31,7 +29,6 @@
     gap: 16px;
 }
 
-/* Прозорий інпут для назви, який виглядає як заголовок */
 .event-title-input {
     background: transparent;
     border: none;
@@ -66,17 +63,15 @@
     padding: 24px 32px;
 }
 
-/* Магія: робимо всі стандартні інпути БІЛИМИ всередині цієї картки */
 .event-modal-card .input-field {
     background-color: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.05);
     color: var(--text-dark);
 }
 .event-modal-card .input-field:focus {
-    box-shadow: 0 0 0 2px var(--theme-main); /* Фокус під колір категорії */
+    box-shadow: 0 0 0 2px var(--theme-main); 
 }
 
-/* Робимо білим і наш дропдаун */
 .event-modal-card .select-trigger {
     background-color: #ffffff;
     border-color: rgba(0, 0, 0, 0.05);
@@ -126,8 +121,3 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 .event-save-btn:active { transform: translateY(0); }
-
-@keyframes eventFadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}

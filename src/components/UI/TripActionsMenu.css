@@ -1,18 +1,15 @@
 .trip-actions-container {
-    position: absolute; /* Буде позиціонуватись відносно TripCard */
+    position: absolute;
     z-index: 999;
 }
 
-/* === ВАРІАНТ: ПІЛЮЛЯ (для карток) === */
 .trip-actions-container.pill-horizontal {
     top: 12px;
     right: 12px;
-    /* Сховаємо по дефолту, покажемо по ховеру на батьківський TripCard */
     opacity: 0;
     transition: opacity 0.2s ease;
 }
 
-/* Це правило працюватиме, коли ми додамо клас в TripCard.css */
 .trip-card:hover .trip-actions-container.pill-horizontal {
     opacity: 1;
 }
@@ -37,7 +34,6 @@
     transform: scale(1.05);
 }
 
-/* === САМЕ ВИПАДАЮЧЕ МЕНЮ === */
 .actions-dropdown {
     position: absolute;
     top: calc(100% + 8px);
@@ -87,7 +83,7 @@
     color: var(--red-main);
 }
 .delete-action:hover {
-    background: rgba(255, 71, 87, 0.1); /* Світло-червоний фон */
+    background: rgba(255, 71, 87, 0.1); 
 }
 
 @keyframes menuFadeIn {
@@ -95,9 +91,8 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* === ВАРІАНТ: ВЕРТИКАЛЬНІ КРАПКИ (для деталей) === */
 .trip-actions-container.icon-vertical {
-    position: relative; /* Щоб випадашка була прив'язана саме до крапок */
+    position: relative; 
     display: inline-flex;
     align-items: center;
 }
@@ -106,7 +101,7 @@
     background: transparent;
     border: none;
     color: var(--purple-main);
-    font-size: 22px; /* Трохи більші, щоб було зручно клікати */
+    font-size: 22px; 
     font-weight: bold;
     padding: 0 8px;
     cursor: pointer;
@@ -117,7 +112,6 @@
     opacity: 0.6;
 }
 
-/* Щоб менюшка від вертикальних крапок випадала рівно під ними */
 .trip-actions-container.icon-vertical .actions-dropdown {
     top: 100%;
     left: 0; 

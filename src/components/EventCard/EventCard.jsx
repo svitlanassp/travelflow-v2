@@ -1,4 +1,5 @@
 import { getCategoryStyle } from '../../constants/categories';
+import { motion } from 'framer-motion'; 
 import './EventCard.css';
 
 function EventCard({ event, onClick }) {
@@ -8,7 +9,8 @@ function EventCard({ event, onClick }) {
     const hasCost = cost > 0;
 
     return (
-        <div 
+        <motion.div
+            layoutId={`event-card-${event.id}`} 
             className="event-card"
             onClick={onClick}
             style={{
@@ -16,6 +18,12 @@ function EventCard({ event, onClick }) {
                 '--event-main': categoryStyle.main,
                 '--event-dark': categoryStyle.dark
             }}
+            whileHover={{ 
+                y: -2, 
+                boxShadow: "0 6px 16px rgba(0,0,0,0.05)" 
+            }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 35 }}
         >
             <div className="event-header">
                 <h3 className="event-title">{event.title}</h3>
@@ -29,7 +37,7 @@ function EventCard({ event, onClick }) {
 
                 {hasCost && <div className="event-cost">${cost.toFixed(2)}</div>}
             </div>
-        </div>
+        </motion.div>
     );
 }
 

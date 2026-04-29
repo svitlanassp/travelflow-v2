@@ -211,7 +211,6 @@
     transition: opacity 0.2s ease;
 }
 
-/* Показуємо, коли мишка над заголовком (trip-title-wrapper) */
 .trip-title-wrapper:hover .trip-actions-container.icon-vertical {
     opacity: 1;
 }

@@ -17,7 +17,6 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
     const fileInputRef = useRef(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Заповнюємо форму старими даними при відкритті
     useEffect(() => {
         if (tripData) {
             setTripForm({
@@ -28,7 +27,7 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
                 end_date: tripData.end_date || '',
                 total_budget: tripData.total_budget || ''
             });
-            setCoverFile(null); // Скидаємо файл, щоб випадково не завантажити старий з пам'яті
+            setCoverFile(null); 
         }
     }, [tripData]);
 
@@ -52,14 +51,13 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
                 formData.append('total_budget', tripForm.total_budget);
             }
             
-            // Додаємо нове фото ТІЛЬКИ якщо юзер вибрав нове
             if (coverFile) {
                 formData.append('cover_image', coverFile);
             }
 
             const updatedTrip = await api.updateTrip(tripData.id, formData);
             
-            onTripUpdated(updatedTrip); // Кажемо сторінці оновити картку
+            onTripUpdated(updatedTrip); 
 
         } catch (error) {
             console.error("Failed to update trip:", error);

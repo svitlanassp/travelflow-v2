@@ -28,8 +28,8 @@ function TripsPage() {
         try {
             setIsDeleting(true);
             await api.deleteTrip(tripToDelete.id);
-            setTrips(prev => prev.filter(t => t.id !== tripToDelete.id)); // Прибираємо з масиву
-            setTripToDelete(null); // Закриваємо модалку
+            setTrips(prev => prev.filter(t => t.id !== tripToDelete.id)); 
+            setTripToDelete(null); 
         } catch (error) {
             console.error("Failed to delete trip:", error);
             alert("Could not delete the trip.");
@@ -167,7 +167,6 @@ function TripsPage() {
                 }}
             />
 
-            {/* НОВА МОДАЛКА: Підтвердження видалення */}
             <ConfirmModal 
                 isOpen={!!tripToDelete}
                 onClose={() => setTripToDelete(null)}

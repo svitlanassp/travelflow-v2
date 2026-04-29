@@ -49,7 +49,6 @@ function ScheduleTab({ trip, categoryFilter, onEventClick }) {
                                     <EventCard 
                                         key={event.id} 
                                         event={event} 
-                                        // 👈 ДОДАЄМО: передаємо івент + прапорець
                                         onClick={() => onEventClick({ ...event, itemType: 'place' })} 
                                     />
                                 ))

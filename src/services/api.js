@@ -22,7 +22,7 @@ async function request(endpoint, options = {}) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
     if (response.status === 401) {
-        Auth.logout(); // <--- Викликало window.location.href і перезавантажувало сторінку
+        Auth.logout(); 
         return null;
     }
 
@@ -73,7 +73,7 @@ export const api = {
     updateTrip: (id, formData) => request(`/trips/${id}/`, {
         method: 'PUT',
         body: formData,
-        isFormData: true // Теж обов'язково, бо ми можемо міняти фотку!
+        isFormData: true 
     }),
     deleteTrip: (id) => request(`/trips/${id}/`, {
         method: 'DELETE'

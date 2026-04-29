@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Header from '../components/Header/Header';
 import ScheduleTab from '../components/ScheduleTab/ScheduleTab';
 import BudgetTab from '../components/BudgetTab/BudgetTab';
@@ -33,7 +34,7 @@ function TripDetailsPage() {
     const [isDeleting, setIsDeleting] = useState(false);
 
     const [expenseToEdit, setExpenseToEdit] = useState(null);
-    const [eventToEdit, setEventToEdit] = useState(null); // 👈 НОВИЙ СТЕЙТ
+    const [eventToEdit, setEventToEdit] = useState(null); 
 
     const [isEditTripOpen, setIsEditTripOpen] = useState(false);
     const [isDeleteTripOpen, setIsDeleteTripOpen] = useState(false);
@@ -168,7 +169,7 @@ function TripDetailsPage() {
     };
 
     const handleTripUpdated = (updatedTrip) => {
-        setTrip(updatedTrip); // Просто оновлюємо весь об'єкт подорожі
+        setTrip(updatedTrip); 
         setIsEditTripOpen(false);
     };
 
@@ -176,7 +177,6 @@ function TripDetailsPage() {
         try {
             setIsDeletingTrip(true);
             await api.deleteTrip(trip.id);
-            // Якщо видалення успішне — викидаємо юзера назад на сторінку всіх подорожей
             navigate('/trips'); 
         } catch (error) {
             console.error("Failed to delete trip:", error);
@@ -200,8 +200,8 @@ function TripDetailsPage() {
                             <h1 className="trip-title">{trip.title}</h1>
                             <TripActionsMenu 
                                 variant="icon-vertical"
-                                onEdit={() => setIsEditTripOpen(true)} // 👈 ТУТ
-                                onDelete={() => setIsDeleteTripOpen(true)} // 👈 І ТУТ
+                                onEdit={() => setIsEditTripOpen(true)} 
+                                onDelete={() => setIsDeleteTripOpen(true)} 
                             />
                         </div>
 
@@ -233,7 +233,7 @@ function TripDetailsPage() {
                     <ScheduleTab 
                         trip={trip} 
                         categoryFilter={categoryFilter} 
-                        onEventClick={handleEditClick} // 👈 ДОДАЛИ
+                        onEventClick={handleEditClick} 
                     />
                 ) : (
                     <BudgetTab 
@@ -298,13 +298,17 @@ function TripDetailsPage() {
                 isProcessing={isDeletingTrip}
             />
 
-            <EditEventModal 
-                isOpen={!!eventToEdit}
-                onClose={() => setEventToEdit(null)}
-                eventData={eventToEdit}
-                onEventUpdated={handleEventUpdated}
-                onDeleteClick={(item) => setItemToDelete(item)} // Перекидаємо на конфірм
-            />
+            <AnimatePresence>
+            {eventToEdit && (
+                <EditEventModal 
+                    isOpen={!!eventToEdit}
+                    onClose={() => setEventToEdit(null)}
+                    eventData={eventToEdit}
+                    onEventUpdated={handleEventUpdated}
+                    onDeleteClick={(item) => setItemToDelete(item)}
+                />
+            )}
+        </AnimatePresence>
         </div>
     );
 }

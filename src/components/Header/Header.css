@@ -65,16 +65,14 @@
     background-color: var(--white);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow);
-    width: 140px; /* Трошки збільшила ширину, щоб компенсувати нові внутрішні відступи */
+    width: 140px; 
     display: flex;
     flex-direction: column;
     z-index: 100;
     border: var(--border); 
     
-    /* ДОДАНО: Внутрішній відступ та простір між елементами */
     padding: 8px; 
     gap: 4px; 
-    /* ПРИБРАНО: overflow: hidden; (більше не потрібно) */
 
     animation: slideDownFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -86,7 +84,6 @@
 
     background: transparent;
     border: none;
-    /* ДОДАНО: Радіус та трохи інші падінги, як у новому дропдауні */
     padding: 10px 12px;
     border-radius: 12px; 
     text-align: left;
