@@ -81,6 +81,23 @@ function TripsPage() {
         return true;
     });
 
+    filteredTrips.sort((a, b) => {
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        
+        const isAPast = new Date(a.end_date) < now;
+        const isBPast = new Date(b.end_date) < now;
+
+        if (isAPast && !isBPast) return 1;
+        if (!isAPast && isBPast) return -1;
+
+        if (!isAPast && !isBPast) {
+            return new Date(a.start_date) - new Date(b.start_date);
+        }
+
+        return new Date(b.start_date) - new Date(a.start_date);
+    });
+
     const isTotallyEmpty = trips.length === 0;
     
     const isFilteredEmpty = filteredTrips.length === 0 && !isTotallyEmpty;

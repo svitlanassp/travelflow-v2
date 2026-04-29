@@ -31,6 +31,14 @@ function ScheduleTab({ trip, categoryFilter, onEventClick }) {
                 const dateString = dayDate.toISOString().split('T')[0]; 
                 const dayEvents = filteredEvents.filter(e => e.visit_date === dateString);
 
+                dayEvents.sort((a, b) => {
+                    if (!a.visit_time && !b.visit_time) return 0;
+                    if (!a.visit_time) return 1;
+                    if (!b.visit_time) return -1;
+                    
+                    return a.visit_time.localeCompare(b.visit_time);
+                });
+
                 return (
                     <div 
                         key={dateString} 
