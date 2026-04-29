@@ -52,27 +52,33 @@ function BudgetTab({ trip, onAddExpense, onDeleteClick, onEditClick }) {
         return new Date(b.displayDate) - new Date(a.displayDate);
     });
 
+    const hasBudget = totalBudget > 0;
+
     return (
         <div className="budget-tab-container">
             
             <div className="metrics-grid">
-                <div className="metric-card">
-                    <p className="metric-label">total budget</p>
-                    <h2 className="metric-value">${totalBudget.toFixed(2)}</h2>
-                    <p className="metric-subtext">set for this trip</p>
-                </div>
+                {hasBudget && (
+                    <div className="metric-card">
+                        <p className="metric-label">total budget</p>
+                        <h2 className="metric-value">${totalBudget.toFixed(2)}</h2>
+                        <p className="metric-subtext">set for this trip</p>
+                    </div>
+                )}
                 <div className="metric-card">
                     <p className="metric-label">total spent</p>
                     <h2 className="metric-value">${totalSpent.toFixed(2)}</h2>
                     <p className="metric-subtext">across {trip.expenses.length + trip.places.length} items</p>
                 </div>
-                <div className="metric-card">
-                    <p className="metric-label">remaining</p>
-                    <h2 className="metric-value">${Math.max(0, remaining).toFixed(2)}</h2>
-                    <p className="metric-subtext">
-                        {totalBudget > 0 ? `${(100 - totalProgress).toFixed(0)}% of budget left` : 'no budget set'}
-                    </p>
-                </div>
+                {hasBudget && (
+                    <div className="metric-card">
+                        <p className="metric-label">remaining</p>
+                        <h2 className="metric-value">${Math.max(0, remaining).toFixed(2)}</h2>
+                        <p className="metric-subtext">
+                            {(100 - totalProgress).toFixed(0)}% of budget left
+                        </p>
+                    </div>
+                )}
                 <div className="metric-card">
                     <p className="metric-label">daily average</p>
                     <h2 className="metric-value">${dailyAverage.toFixed(2)}</h2>
@@ -85,41 +91,51 @@ function BudgetTab({ trip, onAddExpense, onDeleteClick, onEditClick }) {
                 <div className="breakdown-section card">
                     <h3 className="section-title">spending breakdown</h3>
                     
-                    <div className="main-progress-container">
-                        <div className="main-progress-labels">
-                            <span>$0</span>
-                            <span style={{ color: 'var(--purple-main)', fontWeight: 600 }}>${totalSpent.toFixed(0)}</span>
-                            <span>${totalBudget.toFixed(0)}</span>
+                    {hasBudget && (
+                        <div className="main-progress-container">
+                            <div className="main-progress-labels">
+                                <span>$0</span>
+                                <span style={{ color: 'var(--purple-main)', fontWeight: 600 }}>${totalSpent.toFixed(0)}</span>
+                                <span>${totalBudget.toFixed(0)}</span>
+                            </div>
+                            <div className="main-progress-track">
+                                <div className="main-progress-fill" style={{ width: `${totalProgress}%` }}></div>
+                            </div>
                         </div>
-                        <div className="main-progress-track">
-                            <div className="main-progress-fill" style={{ width: `${totalProgress}%` }}></div>
-                        </div>
-                    </div>
+                    )}
 
                     <div className="categories-breakdown">
-                        {Object.entries(CATEGORY_STYLES).map(([catKey, style]) => {
-                            const amount = categoryTotals[catKey];
-                            if (amount === 0) return null; 
-                            
-                            const percent = totalSpent > 0 ? (amount / totalSpent) * 100 : 0;
+                        {totalSpent > 0 ? (
+                            // Якщо є витрати - малюємо рядки категорій
+                            Object.entries(CATEGORY_STYLES).map(([catKey, style]) => {
+                                const amount = categoryTotals[catKey];
+                                if (amount === 0) return null; 
+                                
+                                const percent = (amount / totalSpent) * 100;
 
-                            return (
-                                <div key={catKey} className="category-row">
-                                    <div className="cat-row-left">
-                                        <div className="cat-dot" style={{ backgroundColor: style.main }}></div>
-                                        <span className="cat-name" style={{ color: style.main }}>{style.label}</span>
-                                    </div>
-                                    <div className="cat-row-middle">
-                                        <div className="cat-progress-track">
-                                            <div className="cat-progress-fill" style={{ width: `${percent}%`, backgroundColor: style.main }}></div>
+                                return (
+                                    <div key={catKey} className="category-row">
+                                        <div className="cat-row-left">
+                                            <div className="cat-dot" style={{ backgroundColor: style.main }}></div>
+                                            <span className="cat-name" style={{ color: style.main }}>{style.label}</span>
+                                        </div>
+                                        <div className="cat-row-middle">
+                                            <div className="cat-progress-track">
+                                                <div className="cat-progress-fill" style={{ width: `${percent}%`, backgroundColor: style.main }}></div>
+                                            </div>
+                                        </div>
+                                        <div className="cat-row-right">
+                                            <span className="cat-amount" style={{ color: style.main }}>${amount.toFixed(0)}</span>
                                         </div>
                                     </div>
-                                    <div className="cat-row-right">
-                                        <span className="cat-amount" style={{ color: style.main }}>${amount.toFixed(0)}</span>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })
+                        ) : (
+                            // 👈 ОСЬ ВІН: Твій Empty State
+                            <div className="empty-expenses">
+                                no spending data yet
+                            </div>
+                        )}
                     </div>
                 </div>
 

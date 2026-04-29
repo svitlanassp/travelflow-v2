@@ -91,7 +91,7 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
 
             <div className="modal-footer">
                 <button className="btn-secondary" onClick={onClose}>cancel</button>
-                <button className="btn-primary" onClick={handleUpdateTrip} disabled={isSubmitting}>
+                <button className="btn-primary modal-btn" onClick={handleUpdateTrip} disabled={isSubmitting}>
                     {isSubmitting ? 'saving...' : 'save changes'}
                 </button>
             </div>

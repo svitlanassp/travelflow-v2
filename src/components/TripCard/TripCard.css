@@ -40,7 +40,7 @@
 
 .trip-card-content {
     padding: 12px 14px;
-    min-height: 100px;
+    min-height: 122px;
 
     flex-grow: 1;   
     
@@ -96,4 +96,10 @@
     overflow: hidden;        
     text-overflow: ellipsis;  
     width: 100%;              
+}
+
+.spent-only {
+    color: var(--purple-main); 
+    font-weight: 600;
+    margin-top: 8px;
 }

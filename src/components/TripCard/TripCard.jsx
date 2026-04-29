@@ -56,10 +56,19 @@ function TripCard({ trip, onEdit, onDelete }) {
                 <p className="trip-card-dates">
                     {formatDateRange(trip.start_date, trip.end_date)}
                 </p>
-                <div className="trip-progress-bar">
-                    <div className="trip-progress-fill" style={{ width: `${progress}%` }} />
-                </div>
-                <p className="trip-card-budget">${trip.total_spent} / ${trip.total_budget}</p>
+                {trip.total_budget > 0 && (
+                    <>
+                        <div className="trip-progress-bar">
+                            <div className="trip-progress-fill" style={{ width: `${progress}%` }} />
+                        </div>
+                        <p className="trip-card-budget">${trip.total_spent} / ${trip.total_budget}</p>
+                    </>
+                )}
+
+                {/* Якщо бюджету немає, показуємо просто витрачену суму */}
+                {trip.total_budget <= 0 && (
+                    <p className="trip-card-budget spent-only">spent: ${trip.total_spent}</p>
+                )}
             </div>
         </div>
     )

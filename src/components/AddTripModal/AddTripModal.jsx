@@ -130,7 +130,7 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
             <div className="modal-footer">
                 <button className="btn-secondary" onClick={onClose}>cancel</button>
                 <button 
-                    className="btn-primary" 
+                    className="btn-primary modal-btn"
                     onClick={handleCreateTrip}
                     disabled={isSubmitting}
                 >

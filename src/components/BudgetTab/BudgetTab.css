@@ -9,7 +9,7 @@
 /* === TOP METRICS === */
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
 }
 
@@ -37,6 +37,10 @@
     color: var(--text-dark);
     margin: 0;
     line-height: 1;
+    white-space: nowrap;     
+    overflow: hidden;      
+    text-overflow: ellipsis;  
+    width: 100%;              
 }
 
 .metric-subtext {

@@ -90,7 +90,7 @@ function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded }) {
             <div className="modal-footer">
                 <button className="btn-secondary" onClick={onClose}>cancel</button>
                 <button 
-                    className="btn-primary" 
+                    className="btn-primary modal-btn"
                     onClick={handleSubmit} 
                     disabled={isSubmitting}
                 >
