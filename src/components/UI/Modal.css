@@ -125,3 +125,37 @@
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* === ERROR MODAL STYLES === */
+.error-card {
+    padding: 32px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(217, 82, 82, 0.15); /* Червонувата тінь для настрою */
+    animation: modalFadeIn 0.3s ease;
+    border-top: 4px solid var(--red-main); /* Стильна червона смужка зверху */
+}
+
+.error-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-dark); /* Або var(--red-main), якщо хочеш більш тривожно */
+    margin-bottom: 12px;
+}
+
+.error-text {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+.error-actions {
+    display: flex;
+    justify-content: flex-end; /* Вирівнюємо кнопку вправо */
+}
+
+.error-actions .btn-danger {
+    padding: 10px 24px; /* Робимо кнопку не на всю ширину, а акуратну збоку */
+}

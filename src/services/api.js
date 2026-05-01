@@ -27,8 +27,23 @@ async function request(endpoint, options = {}) {
     }
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(JSON.stringify(errorData));
+        let errorData;
+        try {
+            // Пробуємо прочитати JSON з помилкою від Джанго
+            errorData = await response.json();
+        } catch (e) {
+            // Якщо Джанго впав і повернув не JSON, а просто HTML сторінку з 500 помилкою
+            errorData = { detail: "Server error or invalid response" };
+        }
+
+        // Створюємо "розумну" помилку, в яку кладемо статус і самі дані
+        const customError = new Error("API request failed");
+        customError.response = {
+            status: response.status,
+            data: errorData
+        };
+        
+        throw customError;
     }
 
     return response.status === 204 ? true : response.json();

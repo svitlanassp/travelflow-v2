@@ -3,7 +3,7 @@ import BaseModal from '../UI/BaseModal';
 import Input from '../UI/Input';
 import { api } from '../../services/api';
 
-function AddTripModal({ isOpen, onClose, onTripAdded }) {
+function AddTripModal({ isOpen, onClose, onTripAdded, onError }) {
     const [tripForm, setTripForm] = useState({
         title: '',
         country: '',
@@ -13,6 +13,8 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
         total_budget: ''
     });
 
+    const [errors, setErrors] = useState({});
+
     const [coverFile, setCoverFile] = useState(null);
     const fileInputRef = useRef(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,11 +22,16 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setTripForm(prev => ({ ...prev, [name]: value }));
+
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: null }));
+        }
     };
 
     const handleCreateTrip = async () => {
         try {
             setIsSubmitting(true);
+            setErrors({});
             
             const formData = new FormData();
             formData.append('title', tripForm.title);
@@ -49,7 +56,23 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
 
         } catch (error) {
             console.error("Failed to create trip:", error);
-            alert("Oops! Something went wrong.");
+            
+            // ПЕРЕВІРЯЄМО: Чи це помилка валідації від Джанго (400 Bad Request)?
+            if (error.response && error.response.data && error.response.status === 400) {
+                const backendErrors = error.response.data;
+                const formattedErrors = {};
+                
+                // Джанго повертає масиви, нам треба витягти перший текст помилки
+                for (const key in backendErrors) {
+                    formattedErrors[key] = Array.isArray(backendErrors[key]) 
+                        ? backendErrors[key][0] 
+                        : backendErrors[key];
+                }
+                setErrors(formattedErrors); // Інпути стануть червоними!
+            } else {
+                // Якщо сервер впав або нема інтернету - викликаємо ErrorModal
+                onError("Failed to create the trip. Please check your connection and try again.");
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -67,6 +90,7 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
                 placeholder="your adventure title" 
                 value={tripForm.title}
                 onChange={handleInputChange}
+                error={errors.title}
             />
             
             <div className="input-row">
@@ -76,6 +100,7 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
                     placeholder="e.g. Italy" 
                     value={tripForm.country}
                     onChange={handleInputChange}
+                    error={errors.country}
                 />
                 <Input 
                     label="city" 
@@ -83,6 +108,7 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
                     placeholder="e.g. Rome" 
                     value={tripForm.city}
                     onChange={handleInputChange}
+                    error={errors.city}
                 />
             </div>
 
@@ -93,6 +119,7 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
                     type="date" 
                     value={tripForm.start_date}
                     onChange={handleInputChange}
+                    error={errors.start_date}
                 />
                 <Input 
                     label="end date" 
@@ -100,6 +127,7 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
                     type="date" 
                     value={tripForm.end_date}
                     onChange={handleInputChange}
+                    error={errors.end_date}
                 />
             </div>
 
@@ -110,6 +138,7 @@ function AddTripModal({ isOpen, onClose, onTripAdded }) {
                 placeholder="0.00" 
                 value={tripForm.total_budget}
                 onChange={handleInputChange}
+                error={errors.total_budget}
             />
 
             <input 

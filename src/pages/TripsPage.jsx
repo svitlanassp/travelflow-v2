@@ -5,6 +5,7 @@ import Widgets from '../components/Widgets/Widgets'
 import AddTripModal from '../components/AddTripModal/AddTripModal';
 import ConfirmModal from '../components/UI/ConfirmModal';
 import EditTripModal from '../components/EditTripModal/EditTripModal';
+import ErrorModal from '../components/UI/ErrorModal';
 import { api } from '../services/api'
 import { Auth } from '../services/auth'
 import './TripsPage.css'
@@ -22,6 +23,8 @@ function TripsPage() {
     const [tripToEdit, setTripToEdit] = useState(null);
     const [tripToDelete, setTripToDelete] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
+
+    const [globalError, setGlobalError] = useState(null);
     
     const handleConfirmDelete = async () => {
         if (!tripToDelete) return;
@@ -31,8 +34,7 @@ function TripsPage() {
             setTrips(prev => prev.filter(t => t.id !== tripToDelete.id)); 
             setTripToDelete(null); 
         } catch (error) {
-            console.error("Failed to delete trip:", error);
-            alert("Could not delete the trip.");
+            setGlobalError("Could not delete the trip. Server might be down.");
         } finally {
             setIsDeleting(false);
         }
@@ -44,7 +46,7 @@ function TripsPage() {
                 const data = await api.getTrips();
                 setTrips(data);
             } catch (error) {
-                console.error("Error fetching trips:", error);
+                setGlobalError("Failed to fetch your trips. Please refresh the page.");
             } finally {
                 setLoading(false);
             }
@@ -172,6 +174,7 @@ function TripsPage() {
                     setTrips(prev => [...prev, newTrip]); 
                     setIsAddModalOpen(false); 
                 }}
+                onError={(msg) => setGlobalError(msg)}
             />
 
             <EditTripModal
@@ -182,6 +185,7 @@ function TripsPage() {
                     setTrips(prev => prev.map(t => t.id === updatedTrip.id ? updatedTrip : t));
                     setTripToEdit(null);
                 }}
+                onError={(msg) => setGlobalError(msg)}
             />
 
             <ConfirmModal 
@@ -197,6 +201,12 @@ function TripsPage() {
                 }
                 confirmText="delete trip"
                 isProcessing={isDeleting}
+            />
+
+            <ErrorModal 
+                isOpen={!!globalError} 
+                message={globalError} 
+                onClose={() => setGlobalError(null)} 
             />
 
         </div>

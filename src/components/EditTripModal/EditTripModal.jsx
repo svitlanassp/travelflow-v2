@@ -3,7 +3,7 @@ import BaseModal from '../UI/BaseModal';
 import Input from '../UI/Input';
 import { api } from '../../services/api';
 
-function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
+function EditTripModal({ isOpen, onClose, tripData, onTripUpdated, onError }) {
     const [tripForm, setTripForm] = useState({
         title: '',
         country: '',
@@ -12,6 +12,9 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
         end_date: '',
         total_budget: ''
     });
+
+    // 👈 1. СТЕЙТ ДЛЯ ПОМИЛОК
+    const [errors, setErrors] = useState({});
 
     const [coverFile, setCoverFile] = useState(null);
     const fileInputRef = useRef(null);
@@ -28,17 +31,24 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
                 total_budget: tripData.total_budget || ''
             });
             setCoverFile(null); 
+            setErrors({}); // 👈 2. Очищаємо помилки при відкритті нової подорожі
         }
     }, [tripData]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setTripForm(prev => ({ ...prev, [name]: value }));
+        
+        // 👈 3. Прибираємо помилку для конкретного поля, якщо юзер почав його виправляти
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: null }));
+        }
     };
 
     const handleUpdateTrip = async () => {
         try {
             setIsSubmitting(true);
+            setErrors({}); // 👈 4. Очищаємо всі помилки перед новим запитом
             
             const formData = new FormData();
             formData.append('title', tripForm.title);
@@ -56,12 +66,25 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
             }
 
             const updatedTrip = await api.updateTrip(tripData.id, formData);
-            
             onTripUpdated(updatedTrip); 
 
         } catch (error) {
             console.error("Failed to update trip:", error);
-            alert("Oops! Something went wrong.");
+            
+            // 👈 5. ЛОВИМО 400 (Помилки валідації) ТА 500 (Глобальні)
+            if (error.response && error.response.data && error.response.status === 400) {
+                const backendErrors = error.response.data;
+                const formattedErrors = {};
+                
+                for (const key in backendErrors) {
+                    formattedErrors[key] = Array.isArray(backendErrors[key]) 
+                        ? backendErrors[key][0] 
+                        : backendErrors[key];
+                }
+                setErrors(formattedErrors); 
+            } else {
+                if (onError) onError("Oops! Could not update the trip. Please try again.");
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -69,21 +92,71 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated }) {
 
     return (
         <BaseModal isOpen={isOpen} onClose={onClose} title="edit your trip">
-            <Input label="title" name="title" placeholder="your adventure title" value={tripForm.title} onChange={handleInputChange} />
+            {/* 👈 6. ДОДАЄМО ПРОПС error={} УСІМ ІНПУТАМ */}
+            <Input 
+                label="title" 
+                name="title" 
+                placeholder="your adventure title" 
+                value={tripForm.title} 
+                onChange={handleInputChange} 
+                error={errors.title} 
+            />
             
             <div className="input-row">
-                <Input label="country" name="country" placeholder="e.g. Italy" value={tripForm.country} onChange={handleInputChange} />
-                <Input label="city" name="city" placeholder="e.g. Rome" value={tripForm.city} onChange={handleInputChange} />
+                <Input 
+                    label="country" 
+                    name="country" 
+                    placeholder="e.g. Italy" 
+                    value={tripForm.country} 
+                    onChange={handleInputChange} 
+                    error={errors.country} 
+                />
+                <Input 
+                    label="city" 
+                    name="city" 
+                    placeholder="e.g. Rome" 
+                    value={tripForm.city} 
+                    onChange={handleInputChange} 
+                    error={errors.city} 
+                />
             </div>
 
             <div className="input-row">
-                <Input label="start date" name="start_date" type="date" value={tripForm.start_date} onChange={handleInputChange} />
-                <Input label="end date" name="end_date" type="date" value={tripForm.end_date} onChange={handleInputChange} />
+                <Input 
+                    label="start date" 
+                    name="start_date" 
+                    type="date" 
+                    value={tripForm.start_date} 
+                    onChange={handleInputChange} 
+                    error={errors.start_date} 
+                />
+                <Input 
+                    label="end date" 
+                    name="end_date" 
+                    type="date" 
+                    value={tripForm.end_date} 
+                    onChange={handleInputChange} 
+                    error={errors.end_date} 
+                />
             </div>
 
-            <Input label="budget ($)" name="total_budget" type="number" placeholder="0.00" value={tripForm.total_budget} onChange={handleInputChange} />
+            <Input 
+                label="budget ($)" 
+                name="total_budget" 
+                type="number" 
+                placeholder="0.00" 
+                value={tripForm.total_budget} 
+                onChange={handleInputChange} 
+                error={errors.total_budget} 
+            />
 
-            <input type="file" accept="image/*" ref={fileInputRef} style={{ display: 'none' }} onChange={(e) => setCoverFile(e.target.files[0])} />
+            <input 
+                type="file" 
+                accept="image/*" 
+                ref={fileInputRef} 
+                style={{ display: 'none' }} 
+                onChange={(e) => setCoverFile(e.target.files[0])} 
+            />
             <button className="upload-photo-btn" onClick={() => fileInputRef.current.click()}>
                 <span>📷</span> 
                 {coverFile ? coverFile.name : 'change cover photo'}

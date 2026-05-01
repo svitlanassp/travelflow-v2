@@ -1,7 +1,21 @@
+import { useEffect, useRef } from 'react';
 import EventCard from '../EventCard/EventCard';
 import './ScheduleTab.css';
 
 function ScheduleTab({ trip, categoryFilter, onEventClick }) {
+    const todayRef = useRef(null); 
+    
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    useEffect(() => {
+        if (todayRef.current) {
+            todayRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+    }, [trip]); 
     
     const getDatesBetween = (startStr, endStr) => {
         const dates = [];
@@ -29,6 +43,8 @@ function ScheduleTab({ trip, categoryFilter, onEventClick }) {
         <div className="days-container">
             {days.map((dayDate) => {
                 const dateString = dayDate.toISOString().split('T')[0]; 
+                const isToday = dateString === todayStr; 
+
                 const dayEvents = filteredEvents.filter(e => e.visit_date === dateString);
 
                 dayEvents.sort((a, b) => {
@@ -41,26 +57,31 @@ function ScheduleTab({ trip, categoryFilter, onEventClick }) {
 
                 return (
                     <div 
-                        key={dateString} 
-                        className={`card day-column ${isScrollable ? 'fixed-width' : 'flexible-width'}`}
+                        key={dateString}
+                        ref={isToday ? todayRef : null}
+                        className={`day-wrapper ${isScrollable ? 'fixed-width' : 'flexible-width'}`}
                     >
-                        <div className="day-header">
-                            <span className="day-date">{formatDayDate(dayDate)}</span>
-                            <span className="day-name">{formatDayName(dayDate)}</span>
-                        </div>
+                        {isToday && <div className="today-badge">today</div>}
                         
-                        <div className="events-list">
-                            {dayEvents.length === 0 ? (
-                                <p className="no-events">no plans yet</p>
-                            ) : (
-                                dayEvents.map(event => (
-                                    <EventCard 
-                                        key={event.id} 
-                                        event={event} 
-                                        onClick={() => onEventClick({ ...event, itemType: 'place' })} 
-                                    />
-                                ))
-                            )}
+                        <div className={`card day-column ${isToday ? 'is-today' : ''}`}>
+                            <div className="day-header">
+                                <span className="day-date">{formatDayDate(dayDate)}</span>
+                                <span className="day-name">{formatDayName(dayDate)}</span>
+                            </div>
+                            
+                            <div className="events-list">
+                                {dayEvents.length === 0 ? (
+                                    <p className="no-events">no plans yet</p>
+                                ) : (
+                                    dayEvents.map(event => (
+                                        <EventCard 
+                                            key={event.id} 
+                                            event={event} 
+                                            onClick={() => onEventClick({ ...event, itemType: 'place' })} 
+                                        />
+                                    ))
+                                )}
+                            </div>
                         </div>
                     </div>
                 );
