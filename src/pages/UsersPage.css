@@ -111,27 +111,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--gray-basic); 
+    color: var(--gray-basic); /* Стандартний колір для всіх */
+    transition: color 0.2s ease;
 }
 
-.icon-btn svg {
-    width: 16px; 
-    height: 16px;
-    transition: transform 0.2s ease, color 0.2s ease; 
-}
-
+/* Ефекти для конкретних типів кнопок */
 .icon-btn--edit:hover {
     color: var(--purple-main);
-}
-.icon-btn--edit:hover svg {
-    transform: scale(1.15); 
 }
 
 .icon-btn--delete:hover {
     color: var(--red-main);
 }
-.icon-btn--delete:hover svg {
-    transform: scale(1.10); 
+
+/* Анімація самої іконки через наш глобальний клас .icon */
+.icon-btn .icon {
+    transition: transform 0.2s ease;
+}
+
+.icon-btn--edit:hover .icon {
+    transform: scale(1.15);
+}
+
+.icon-btn--delete:hover .icon {
+    transform: scale(1.10);
 }
 
 .empty-state-wrapper {

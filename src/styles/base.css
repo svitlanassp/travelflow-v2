@@ -61,3 +61,19 @@
     justify-content: center;
     padding: 40px 20px;
 }
+
+/* Базовий клас для будь-якої SVG іконки */
+.icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    flex-shrink: 0; /* щоб іконку не сплющувало у флексах */
+}
+
+/* Змушуємо іконку слухатися кольору тексту (color) батька */
+.icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: currentColor; /* якщо іконка зафарбована повністю */
+}

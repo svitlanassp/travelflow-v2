@@ -58,13 +58,19 @@ function TripActionsMenu({ variant = 'pill-horizontal', onEdit, onDelete }) {
                         className="action-item edit-action"
                         onClick={(e) => handleActionClick(e, 'edit')}
                     >
-                        <span className="action-icon">✎</span> edit
+                        <span className="icon">
+                            <EditIcon />
+                        </span> 
+                        edit
                     </button>
                     <button 
                         className="action-item delete-action"
                         onClick={(e) => handleActionClick(e, 'delete')}
                     >
-                        <span className="action-icon">🗑️</span> delete
+                        <span className="icon">
+                            <DeleteIcon />
+                        </span> 
+                        delete
                     </button>
                 </div>
             )}

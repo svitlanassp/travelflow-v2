@@ -67,12 +67,13 @@
     text-align: left;
 }
 
-.action-icon {
-    font-size: 14px;
+.action-item .icon {
+    width: 14px; 
+    height: 14px;
 }
 
 .edit-action {
-    color: var(--text-dark);
+    color: var(--purple-main);
 }
 .edit-action:hover {
     background: var(--purple-light);

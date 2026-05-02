@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Input from '../UI/Input';
+import DeleteIcon from '../../icons/delete.svg?react';
 import CategorySelect from '../UI/CategorySelect';
 import { CATEGORY_STYLES } from '../../constants/categories';
 import { api } from '../../services/api';
@@ -121,7 +122,9 @@ function EditEventModal({ isOpen, onClose, eventData, minDate, maxDate, onEventU
                         }}
                         title="Delete event"
                     >
-                        🗑️
+                        <span className="icon">
+                            <DeleteIcon />
+                        </span>
                     </button>
                     
                     <button 

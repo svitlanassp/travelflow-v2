@@ -114,11 +114,15 @@ function UsersPage() {
                                             </td>
                                             <td className="actions-cell">
                                                 <button className="icon-btn icon-btn--edit" title="edit" onClick={() => navigate(`/users/${user.id}/edit`)}>
-                                                    <EditIcon />
+                                                    <span className="icon">
+                                                        <EditIcon />
+                                                    </span>
                                                 </button>
                                                 
                                                 <button className="icon-btn icon-btn--delete" title="delete" onClick={() => handleDeleteClick(user)}>
-                                                    <DeleteIcon />
+                                                    <span className="icon">
+                                                        <DeleteIcon />
+                                                    </span>
                                                 </button>
                                             </td>
                                         </tr>
