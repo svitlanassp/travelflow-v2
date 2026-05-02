@@ -4,46 +4,57 @@ import Input from '../UI/Input';
 import CategorySelect from '../UI/CategorySelect'; 
 import { api } from '../../services/api';
 
-function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded }) {
+function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded, onError }) {
     const [form, setForm] = useState({
         title: '',
         category: '',
         date: '',
         amount: ''
     });
+    const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
+        
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: null }));
+        }
     };
 
     const handleSubmit = async () => {
         try {
             setIsSubmitting(true);
-            
-            if (!form.title || !form.category || !form.amount) {
-                alert("Please fill in name, category, and cost!");
-                setIsSubmitting(false);
-                return;
-            }
+            setErrors({});
 
             const expenseData = {
                 trip: tripId, 
                 title: form.title,
-                category: form.category,
-                amount: parseFloat(form.amount),
+                category: form.category || 'others',
+                amount: form.amount ? parseFloat(form.amount) : null,
                 date: form.date || null 
             };
 
             const newExpense = await api.createExpense(expenseData);
             
             setForm({ title: '', category: '', date: '', amount: '' });
+            setErrors({});
             onExpenseAdded(newExpense);
 
         } catch (error) {
-            console.error("Failed to add expense", error);
-            alert("Oops! Something went wrong.");
+            if (error.response && error.response.data && error.response.status === 400) {
+                const backendErrors = error.response.data;
+                const formattedErrors = {};
+                for (const key in backendErrors) {
+                    formattedErrors[key] = Array.isArray(backendErrors[key]) 
+                        ? backendErrors[key][0] 
+                        : backendErrors[key];
+                }
+                setErrors(formattedErrors); 
+            } else {
+                if (onError) onError("Oops! Could not add expense. Please try again.");
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -61,6 +72,7 @@ function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded }) {
                 placeholder="e.g. Morning Coffee" 
                 value={form.title} 
                 onChange={handleInputChange} 
+                error={errors.title}
             />
             
             <div className="input-row">
@@ -70,6 +82,7 @@ function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded }) {
                     type="date" 
                     value={form.date} 
                     onChange={handleInputChange} 
+                    error={errors.date}
                 />
                 <Input 
                     label="cost ($)" 
@@ -78,13 +91,17 @@ function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded }) {
                     placeholder="0.00" 
                     value={form.amount} 
                     onChange={handleInputChange} 
+                    error={errors.amount}
                 />
             </div>
 
             <CategorySelect 
                 label="category" 
                 value={form.category} 
-                onChange={(val) => setForm({ ...form, category: val })} 
+                onChange={(val) => {
+                    setForm({ ...form, category: val });
+                    if (errors.category) setErrors(prev => ({ ...prev, category: null })); // Скидаємо помилку категорії
+                }}
             />
 
             <div className="modal-footer">

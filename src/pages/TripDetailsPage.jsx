@@ -10,6 +10,7 @@ import AddEventModal from '../components/AddEventModal/AddEventModal';
 import EditTripModal from '../components/EditTripModal/EditTripModal';
 import EditEventModal from '../components/EditEventModal/EditEventModal';
 import ConfirmModal from '../components/UI/ConfirmModal';
+import ErrorModal from '../components/UI/ErrorModal';
 import TripActionsMenu from '../components/UI/TripActionsMenu';
 import CategoryFilterDropdown from '../components/UI/CategoryFilterDropdown';
 import { api } from '../services/api';
@@ -39,6 +40,8 @@ function TripDetailsPage() {
     const [isEditTripOpen, setIsEditTripOpen] = useState(false);
     const [isDeleteTripOpen, setIsDeleteTripOpen] = useState(false);
     const [isDeletingTrip, setIsDeletingTrip] = useState(false);
+
+    const [globalError, setGlobalError] = useState(null);
 
     useEffect(() => {
         const fetchTripDetails = async () => {
@@ -125,8 +128,7 @@ function TripDetailsPage() {
             }
             setItemToDelete(null); 
         } catch (error) {
-            console.error("Failed to delete", error);
-            alert("Oops! Failed to delete this item.");
+            setGlobalError("Oops! Failed to delete this item. Please try again.");
         } finally {
             setIsDeleting(false);
         }
@@ -179,8 +181,7 @@ function TripDetailsPage() {
             await api.deleteTrip(trip.id);
             navigate('/trips'); 
         } catch (error) {
-            console.error("Failed to delete trip:", error);
-            alert("Oops! Could not delete this trip.");
+            setGlobalError("Oops! Could not delete this trip. Server might be down.");
         } finally {
             setIsDeletingTrip(false);
         }
@@ -250,6 +251,7 @@ function TripDetailsPage() {
                 onClose={() => setIsAddExpenseOpen(false)}
                 tripId={trip.id}
                 onExpenseAdded={handleExpenseAdded}
+                onError={(msg) => setGlobalError(msg)}
             />
 
             <AddEventModal 
@@ -259,6 +261,7 @@ function TripDetailsPage() {
                 minDate={trip.start_date} 
                 maxDate={trip.end_date} 
                 onEventAdded={handleEventAdded}
+                onError={(msg) => setGlobalError(msg)}
             />
 
             <ConfirmModal 
@@ -276,6 +279,7 @@ function TripDetailsPage() {
                 onClose={() => setExpenseToEdit(null)}
                 expenseData={expenseToEdit}
                 onExpenseUpdated={handleExpenseUpdated}
+                onError={(msg) => setGlobalError(msg)}
             />
 
             <EditTripModal 
@@ -283,6 +287,7 @@ function TripDetailsPage() {
                 onClose={() => setIsEditTripOpen(false)}
                 tripData={trip}
                 onTripUpdated={handleTripUpdated}
+                onError={(msg) => setGlobalError(msg)}
             />
 
             <ConfirmModal 
@@ -310,9 +315,15 @@ function TripDetailsPage() {
                     maxDate={trip.end_date}  
                     onEventUpdated={handleEventUpdated}
                     onDeleteClick={(item) => setItemToDelete(item)}
+                    onError={(msg) => setGlobalError(msg)}
                 />
             )}
         </AnimatePresence>
+        <ErrorModal 
+                isOpen={!!globalError} 
+                message={globalError} 
+                onClose={() => setGlobalError(null)} 
+            />
         </div>
     );
 }
