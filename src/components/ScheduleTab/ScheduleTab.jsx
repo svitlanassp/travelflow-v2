@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import EventCard from '../EventCard/EventCard';
 import './ScheduleTab.css';
 
-function ScheduleTab({ trip, categoryFilter, onEventClick }) {
+function ScheduleTab({ trip, categoryFilter, onEventClick, onQuickAddClick }) {
     const todayRef = useRef(null); 
     
     const todayStr = new Date().toISOString().split('T')[0];
@@ -70,17 +70,21 @@ function ScheduleTab({ trip, categoryFilter, onEventClick }) {
                             </div>
                             
                             <div className="events-list">
-                                {dayEvents.length === 0 ? (
-                                    <p className="no-events">no plans yet</p>
-                                ) : (
-                                    dayEvents.map(event => (
-                                        <EventCard 
-                                            key={event.id} 
-                                            event={event} 
-                                            onClick={() => onEventClick({ ...event, itemType: 'place' })} 
-                                        />
-                                    ))
-                                )}
+                                {dayEvents.map(event => (
+                                    <EventCard 
+                                        key={event.id} 
+                                        event={event} 
+                                        onClick={() => onEventClick({ ...event, itemType: 'place' })} 
+                                    />
+                                ))}
+                                
+                                <button 
+                                    className="quick-add-event-btn"
+                                    onClick={() => onQuickAddClick(dateString)}
+                                    title="Add event to this day"
+                                >
+                                    +
+                                </button>
                             </div>
                         </div>
                     </div>

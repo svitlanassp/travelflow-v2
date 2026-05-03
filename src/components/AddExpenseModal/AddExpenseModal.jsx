@@ -28,12 +28,14 @@ function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded, onError }) {
             setIsSubmitting(true);
             setErrors({});
 
+            const todayDate = new Date().toISOString().split('T')[0];
+
             const expenseData = {
                 trip: tripId, 
                 title: form.title,
                 category: form.category || 'others',
                 amount: form.amount ? parseFloat(form.amount) : null,
-                date: form.date || null 
+                date: form.date || todayDate 
             };
 
             const newExpense = await api.createExpense(expenseData);
@@ -100,7 +102,7 @@ function AddExpenseModal({ isOpen, onClose, tripId, onExpenseAdded, onError }) {
                 value={form.category} 
                 onChange={(val) => {
                     setForm({ ...form, category: val });
-                    if (errors.category) setErrors(prev => ({ ...prev, category: null })); // Скидаємо помилку категорії
+                    if (errors.category) setErrors(prev => ({ ...prev, category: null }));
                 }}
             />
 

@@ -1,20 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
 import Header from '../components/Header/Header';
 import ScheduleTab from '../components/ScheduleTab/ScheduleTab';
 import BudgetTab from '../components/BudgetTab/BudgetTab';
-import AddExpenseModal from '../components/AddExpenseModal/AddExpenseModal';
-import EditExpenseModal from '../components/EditExpenseModal/EditExpenseModal';
-import AddEventModal from '../components/AddEventModal/AddEventModal';
-import EditTripModal from '../components/EditTripModal/EditTripModal';
-import EditEventModal from '../components/EditEventModal/EditEventModal';
-import ConfirmModal from '../components/UI/ConfirmModal';
-import ErrorModal from '../components/UI/ErrorModal';
-import TripActionsMenu from '../components/UI/TripActionsMenu';
-import CategoryFilterDropdown from '../components/UI/CategoryFilterDropdown';
+import TripSubheader from '../components/TripSubheader/TripSubheader';
+import TripModals from '../components/TripModals/TripModals';
 import { api } from '../services/api';
-import { CATEGORY_STYLES } from '../constants/categories'; 
 import './TripDetailsPage.css';
 
 function TripDetailsPage() {
@@ -25,23 +16,21 @@ function TripDetailsPage() {
     const [loading, setLoading] = useState(true);
     
     const [activeTab, setActiveTab] = useState('schedule'); 
-    
     const [categoryFilter, setCategoryFilter] = useState('all');
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [globalError, setGlobalError] = useState(null);
+    const [selectedDateForNewEvent, setSelectedDateForNewEvent] = useState(null);
+
     const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
     const [isAddEventOpen, setIsAddEventOpen] = useState(false);
+    const [isEditTripOpen, setIsEditTripOpen] = useState(false);
+    const [isDeleteTripOpen, setIsDeleteTripOpen] = useState(false);
 
     const [itemToDelete, setItemToDelete] = useState(null);
-    const [isDeleting, setIsDeleting] = useState(false);
-
     const [expenseToEdit, setExpenseToEdit] = useState(null);
     const [eventToEdit, setEventToEdit] = useState(null); 
 
-    const [isEditTripOpen, setIsEditTripOpen] = useState(false);
-    const [isDeleteTripOpen, setIsDeleteTripOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [isDeletingTrip, setIsDeletingTrip] = useState(false);
-
-    const [globalError, setGlobalError] = useState(null);
 
     useEffect(() => {
         const fetchTripDetails = async () => {
@@ -56,37 +45,6 @@ function TripDetailsPage() {
         };
         fetchTripDetails();
     }, [id]);
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    if (loading) {
-        return (
-            <div className="app-wrapper">
-                <Header />
-                <div className="page-container loading-container">
-                    <div className="loading-state">loading trip details...</div>
-                </div>
-            </div>
-        );
-    }
-
-    if (!trip) return null;
-
-    const filterOptions = [
-        { id: 'all', label: 'all categories', icon: '🌍', bg: 'var(--purple-light)', main: 'var(--purple-main)' },
-        ...Object.entries(CATEGORY_STYLES).map(([key, value]) => ({
-            id: key, ...value
-        }))
-    ];
-    const selectedOption = filterOptions.find(opt => opt.id === categoryFilter);
 
     const handleExpenseAdded = (newExpense) => {
         setTrip(prevTrip => ({
@@ -187,142 +145,76 @@ function TripDetailsPage() {
         }
     };
 
+    if (loading) {
+        return (
+            <div className="app-wrapper">
+                <Header />
+                <div className="page-container loading-container">
+                    <div className="loading-state">loading trip details...</div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!trip) return null;
 
     return (
         <div className="app-wrapper">
             <Header />
             <div className="page-container trip-details-container">
                 
-                <div className="subheader">
-                    <div className="subheader-left">
-                        <button className="back-btn" onClick={() => navigate('/trips')}>←</button>
-                        
-                        <div className="trip-title-wrapper">
-                            <h1 className="trip-title">{trip.title}</h1>
-                            <TripActionsMenu 
-                                variant="icon-vertical"
-                                onEdit={() => setIsEditTripOpen(true)} 
-                                onDelete={() => setIsDeleteTripOpen(true)} 
-                            />
-                        </div>
-
-                        <div className="tabs">
-                            <div className={`tab-glider ${activeTab}`}></div>
-                            <button 
-                                className={`tab ${activeTab === 'schedule' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('schedule')}
-                            >schedule</button>
-                            <button 
-                                className={`tab ${activeTab === 'budget' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('budget')}
-                            >budget</button>
-                        </div>
-                    </div>
-
-                    {activeTab === 'schedule' && (
-                        <div className="subheader-right">
-                            <CategoryFilterDropdown 
-                                categoryFilter={categoryFilter} 
-                                setCategoryFilter={setCategoryFilter} 
-                            />
-                            <button className="btn-primary btn-add" onClick={() => setIsAddEventOpen(true)}>+</button>
-                        </div>
-                    )}
-                </div>
+                <TripSubheader 
+                    trip={trip}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    categoryFilter={categoryFilter}
+                    setCategoryFilter={setCategoryFilter}
+                    onAddClick={() => {
+                        setSelectedDateForNewEvent(null); 
+                        setIsAddEventOpen(true);
+                    }}
+                    onEditTrip={() => setIsEditTripOpen(true)}
+                    onDeleteTrip={() => setIsDeleteTripOpen(true)}
+                />
 
                 {activeTab === 'schedule' ? (
                     <ScheduleTab 
                         trip={trip} 
                         categoryFilter={categoryFilter} 
                         onEventClick={handleEditClick} 
+                        onQuickAddClick={(date) => {
+                            setSelectedDateForNewEvent(date); 
+                            setIsAddEventOpen(true);         
+                        }}
                     />
                 ) : (
                     <BudgetTab 
                         trip={trip} 
                         onAddExpense={() => setIsAddExpenseOpen(true)} 
-                        onDeleteClick={(item) => setItemToDelete(item)}
+                        onDeleteClick={setItemToDelete}
                         onEditClick={handleEditClick}
                     />
                 )}
 
             </div>
-            <AddExpenseModal 
-                isOpen={isAddExpenseOpen}
-                onClose={() => setIsAddExpenseOpen(false)}
-                tripId={trip.id}
-                onExpenseAdded={handleExpenseAdded}
-                onError={(msg) => setGlobalError(msg)}
-            />
 
-            <AddEventModal 
-                isOpen={isAddEventOpen}
-                onClose={() => setIsAddEventOpen(false)}
-                tripId={trip.id}
-                minDate={trip.start_date} 
-                maxDate={trip.end_date} 
-                onEventAdded={handleEventAdded}
-                onError={(msg) => setGlobalError(msg)}
-            />
-
-            <ConfirmModal 
-                isOpen={!!itemToDelete}
-                onClose={() => setItemToDelete(null)}
-                onConfirm={handleDeleteConfirm}
-                title="delete item?"
-                message={`Are you sure you want to delete "${itemToDelete?.title}"? This will affect your budget calculation.`}
-                confirmText="delete"
-                isProcessing={isDeleting}
-            />
-
-            <EditExpenseModal 
-                isOpen={!!expenseToEdit}
-                onClose={() => setExpenseToEdit(null)}
-                expenseData={expenseToEdit}
-                onExpenseUpdated={handleExpenseUpdated}
-                onError={(msg) => setGlobalError(msg)}
-            />
-
-            <EditTripModal 
-                isOpen={isEditTripOpen}
-                onClose={() => setIsEditTripOpen(false)}
-                tripData={trip}
-                onTripUpdated={handleTripUpdated}
-                onError={(msg) => setGlobalError(msg)}
-            />
-
-            <ConfirmModal 
-                isOpen={isDeleteTripOpen}
-                onClose={() => setIsDeleteTripOpen(false)}
-                onConfirm={handleTripDelete}
-                title="delete trip?"
-                message={
-                    <>
-                        Are you sure you want to delete <strong>{trip.title}</strong>? 
-                        This will erase all schedule and budget data forever!
-                    </>
-                }
-                confirmText="delete trip"
-                isProcessing={isDeletingTrip}
-            />
-
-            <AnimatePresence>
-            {eventToEdit && (
-                <EditEventModal 
-                    isOpen={!!eventToEdit}
-                    onClose={() => setEventToEdit(null)}
-                    eventData={eventToEdit}
-                    minDate={trip.start_date} 
-                    maxDate={trip.end_date}  
-                    onEventUpdated={handleEventUpdated}
-                    onDeleteClick={(item) => setItemToDelete(item)}
-                    onError={(msg) => setGlobalError(msg)}
-                />
-            )}
-        </AnimatePresence>
-        <ErrorModal 
-                isOpen={!!globalError} 
-                message={globalError} 
-                onClose={() => setGlobalError(null)} 
+            <TripModals 
+                trip={trip}
+                modals={{
+                    isAddExpenseOpen, isAddEventOpen, itemToDelete, isDeleting, 
+                    expenseToEdit, eventToEdit, isEditTripOpen, isDeleteTripOpen, 
+                    isDeletingTrip, globalError, selectedDateForNewEvent
+                }}
+                setters={{
+                    setIsAddExpenseOpen, setIsAddEventOpen, setItemToDelete, 
+                    setExpenseToEdit, setEventToEdit, setIsEditTripOpen, 
+                    setIsDeleteTripOpen, setGlobalError
+                }}
+                handlers={{
+                    handleExpenseAdded, handleEventAdded, handleDeleteConfirm, 
+                    handleExpenseUpdated, handleEventUpdated, handleTripUpdated, 
+                    handleTripDelete
+                }}
             />
         </div>
     );

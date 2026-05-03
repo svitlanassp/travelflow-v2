@@ -7,7 +7,6 @@ import { CATEGORY_STYLES } from '../../constants/categories';
 import { api } from '../../services/api';
 import './EventModal.css'; 
 
-// ДОДАЛИ onError
 function EditEventModal({ isOpen, onClose, eventData, minDate, maxDate, onEventUpdated, onDeleteClick, onError }) {
     const [form, setForm] = useState({
         title: '',
@@ -18,7 +17,6 @@ function EditEventModal({ isOpen, onClose, eventData, minDate, maxDate, onEventU
         notes: ''
     });
     
-    // СТЕЙТ ПОМИЛОК
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -32,7 +30,7 @@ function EditEventModal({ isOpen, onClose, eventData, minDate, maxDate, onEventU
                 category: eventData.category || 'others',
                 notes: eventData.notes || ''
             });
-            setErrors({}); // Скидаємо помилки
+            setErrors({}); 
         }
     }, [eventData]);
 
@@ -104,7 +102,6 @@ function EditEventModal({ isOpen, onClose, eventData, minDate, maxDate, onEventU
                     '--theme-dark': currentStyle.dark 
                 }}
             >
-                {/* КАСТОМНИЙ ІНПУТ TITLE З ПОМИЛКОЮ */}
                 <div className="event-modal-header" style={{ flexDirection: 'column', alignItems: 'flex-start', position: 'relative' }}>
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
                         <input 

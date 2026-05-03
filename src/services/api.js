@@ -1,6 +1,6 @@
 import { Auth } from './auth';
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+const API_BASE_URL = 'http://127.0.0.1:8000/api'; 
 
 async function request(endpoint, options = {}) {
     const token = Auth.getToken();
@@ -29,14 +29,11 @@ async function request(endpoint, options = {}) {
     if (!response.ok) {
         let errorData;
         try {
-            // Пробуємо прочитати JSON з помилкою від Джанго
             errorData = await response.json();
         } catch (e) {
-            // Якщо Джанго впав і повернув не JSON, а просто HTML сторінку з 500 помилкою
             errorData = { detail: "Server error or invalid response" };
         }
 
-        // Створюємо "розумну" помилку, в яку кладемо статус і самі дані
         const customError = new Error("API request failed");
         customError.response = {
             status: response.status,

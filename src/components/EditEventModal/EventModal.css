@@ -88,15 +88,13 @@
 .event-delete-btn {
     background: transparent;
     border: none;
-    /* Прибираємо font-size: 20px, тепер розміром керує .icon */
     cursor: pointer;
-    /* Використовуємо колір теми з прозорістю, щоб було схоже на емодзі */
     color: var(--theme-dark); 
-    opacity: 0.6; /* Робимо її м'якшою/сірішою за замовчуванням */
+    opacity: 0.6; 
     transition: all 0.2s ease;
     padding: 8px;
     border-radius: 50%;
-    display: flex; /* додаємо для центрування іконки */
+    display: flex; 
     align-items: center;
     justify-content: center;
 }
@@ -107,10 +105,10 @@
 }
 
 .event-delete-btn:hover {
-    opacity: 1; /* При ховері стає яскравою */
+    opacity: 1; 
     background: rgba(0, 0, 0, 0.05);
     transform: scale(1.1);
-    color: var(--red-main); /* МОЖНА додати це, якщо хочеш, щоб при ховері вона червоніла */
+    color: var(--red-main); 
 }
 
 .event-save-btn {

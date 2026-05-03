@@ -57,20 +57,17 @@ function AddTripModal({ isOpen, onClose, onTripAdded, onError }) {
         } catch (error) {
             console.error("Failed to create trip:", error);
             
-            // ПЕРЕВІРЯЄМО: Чи це помилка валідації від Джанго (400 Bad Request)?
             if (error.response && error.response.data && error.response.status === 400) {
                 const backendErrors = error.response.data;
                 const formattedErrors = {};
                 
-                // Джанго повертає масиви, нам треба витягти перший текст помилки
                 for (const key in backendErrors) {
                     formattedErrors[key] = Array.isArray(backendErrors[key]) 
                         ? backendErrors[key][0] 
                         : backendErrors[key];
                 }
-                setErrors(formattedErrors); // Інпути стануть червоними!
+                setErrors(formattedErrors); 
             } else {
-                // Якщо сервер впав або нема інтернету - викликаємо ErrorModal
                 onError("Failed to create the trip. Please check your connection and try again.");
             }
         } finally {

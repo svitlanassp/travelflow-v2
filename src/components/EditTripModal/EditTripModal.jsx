@@ -13,7 +13,6 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated, onError }) {
         total_budget: ''
     });
 
-    // 👈 1. СТЕЙТ ДЛЯ ПОМИЛОК
     const [errors, setErrors] = useState({});
 
     const [coverFile, setCoverFile] = useState(null);
@@ -31,7 +30,7 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated, onError }) {
                 total_budget: tripData.total_budget || ''
             });
             setCoverFile(null); 
-            setErrors({}); // 👈 2. Очищаємо помилки при відкритті нової подорожі
+            setErrors({}); 
         }
     }, [tripData]);
 
@@ -39,7 +38,6 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated, onError }) {
         const { name, value } = e.target;
         setTripForm(prev => ({ ...prev, [name]: value }));
         
-        // 👈 3. Прибираємо помилку для конкретного поля, якщо юзер почав його виправляти
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: null }));
         }
@@ -48,7 +46,7 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated, onError }) {
     const handleUpdateTrip = async () => {
         try {
             setIsSubmitting(true);
-            setErrors({}); // 👈 4. Очищаємо всі помилки перед новим запитом
+            setErrors({}); 
             
             const formData = new FormData();
             formData.append('title', tripForm.title);
@@ -71,7 +69,6 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated, onError }) {
         } catch (error) {
             console.error("Failed to update trip:", error);
             
-            // 👈 5. ЛОВИМО 400 (Помилки валідації) ТА 500 (Глобальні)
             if (error.response && error.response.data && error.response.status === 400) {
                 const backendErrors = error.response.data;
                 const formattedErrors = {};
@@ -92,7 +89,6 @@ function EditTripModal({ isOpen, onClose, tripData, onTripUpdated, onError }) {
 
     return (
         <BaseModal isOpen={isOpen} onClose={onClose} title="edit your trip">
-            {/* 👈 6. ДОДАЄМО ПРОПС error={} УСІМ ІНПУТАМ */}
             <Input 
                 label="title" 
                 name="title" 

@@ -111,11 +111,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--gray-basic); /* Стандартний колір для всіх */
+    color: var(--gray-basic); 
     transition: color 0.2s ease;
 }
 
-/* Ефекти для конкретних типів кнопок */
 .icon-btn--edit:hover {
     color: var(--purple-main);
 }
@@ -124,7 +123,6 @@
     color: var(--red-main);
 }
 
-/* Анімація самої іконки через наш глобальний клас .icon */
 .icon-btn .icon {
     transition: transform 0.2s ease;
 }

@@ -115,3 +115,28 @@
 .is-today .day-date {
     color: var(--purple-main);
 }
+
+.quick-add-event-btn {
+    width: 100%;
+    background: transparent;
+    border: 2px dashed var(--purple-light); 
+    border-radius: 16px; 
+    padding: 10px;
+    margin-top: 8px;
+    color: var(--purple-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.quick-add-event-btn:hover {
+    background: var(--purple-light);
+    border-color: var(--purple-main);
+    opacity: 1;
+    transform: translateY(-1px);
+}

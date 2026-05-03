@@ -65,7 +65,6 @@ function TripCard({ trip, onEdit, onDelete }) {
                     </>
                 )}
 
-                {/* Якщо бюджету немає, показуємо просто витрачену суму */}
                 {trip.total_budget <= 0 && (
                     <p className="trip-card-budget spent-only">spent: ${trip.total_spent}</p>
                 )}

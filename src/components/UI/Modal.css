@@ -131,15 +131,15 @@
     padding: 32px;
     width: 90%;
     max-width: 400px;
-    box-shadow: 0 10px 40px rgba(217, 82, 82, 0.15); /* Червонувата тінь для настрою */
+    box-shadow: 0 10px 40px rgba(217, 82, 82, 0.15); 
     animation: modalFadeIn 0.3s ease;
-    border-top: 4px solid var(--red-main); /* Стильна червона смужка зверху */
+    border-top: 4px solid var(--red-main); 
 }
 
 .error-title {
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
-    color: var(--text-dark); /* Або var(--red-main), якщо хочеш більш тривожно */
+    color: var(--text-dark); 
     margin-bottom: 12px;
 }
 
@@ -153,9 +153,9 @@
 
 .error-actions {
     display: flex;
-    justify-content: flex-end; /* Вирівнюємо кнопку вправо */
+    justify-content: flex-end; 
 }
 
 .error-actions .btn-danger {
-    padding: 10px 24px; /* Робимо кнопку не на всю ширину, а акуратну збоку */
+    padding: 10px 24px; 
 }

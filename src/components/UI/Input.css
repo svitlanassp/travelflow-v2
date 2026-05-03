@@ -42,15 +42,15 @@ textarea.input-field {
 .input-field.input-error {
     background-color: var(--red-light);
     border: 1px solid var(--red-main);
-    color: var(--text-dark); /* Можна залишити або зробити трохи темнішим червоним */
+    color: var(--text-dark); 
 }
 
 .input-field.input-error:focus {
-    box-shadow: 0 0 0 1px var(--red-main); /* Червона тінь при фокусі */
+    box-shadow: 0 0 0 1px var(--red-main); 
 }
 
 .input-field.input-error::placeholder {
-    color: var(--red-main); /* Щоб плейсхолдер теж виглядав "небезпечно" */
+    color: var(--red-main); 
     opacity: 0.6;
 }
 
@@ -58,5 +58,5 @@ textarea.input-field {
     font-size: var(--font-size-xs);
     color: var(--red-main);
     font-weight: var(--font-weight-medium);
-    margin-top: -2px; /* Трохи підтягуємо ближче до інпуту */
+    margin-top: -2px;
 }

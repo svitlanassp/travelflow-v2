@@ -1,29 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BaseModal from '../UI/BaseModal';
 import Input from '../UI/Input';
 import CategorySelect from '../UI/CategorySelect';
 import { api } from '../../services/api';
 
-// ДОДАЛИ onError
-function AddEventModal({ isOpen, onClose, tripId, minDate, maxDate, onEventAdded, onError }) {
+function AddEventModal({ isOpen, onClose, tripId, minDate, maxDate, onEventAdded, onError, initialDate }) {
     const [form, setForm] = useState({
         title: '',
-        visit_date: '',
+        visit_date: initialDate || '',
         visit_time: '',
         cost: '',
         category: '',
         notes: ''
     });
     
-    // ДОДАЛИ СТЕЙТ ПОМИЛОК
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) {
+            setForm(prev => ({
+                ...prev,
+                visit_date: initialDate || ''
+            }));
+            setErrors({}); 
+        }
+    }, [isOpen, initialDate]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
         
-        // Очищаємо помилку при вводі
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: null }));
         }
@@ -32,9 +39,7 @@ function AddEventModal({ isOpen, onClose, tripId, minDate, maxDate, onEventAdded
     const handleSubmit = async () => {
         try {
             setIsSubmitting(true);
-            setErrors({}); // Очищаємо старі помилки
-            
-            // ПРИБРАЛИ СТАРИЙ ALERT, ДОВІРЯЄМО БЕКЕНДУ
+            setErrors({}); 
 
             const eventData = {
                 trip: tripId,
@@ -54,7 +59,6 @@ function AddEventModal({ isOpen, onClose, tripId, minDate, maxDate, onEventAdded
         } catch (error) {
             console.error("Failed to add event", error);
             
-            // ЛОВИМО 400 ТА 500 ПОМИЛКИ
             if (error.response && error.response.data && error.response.status === 400) {
                 const backendErrors = error.response.data;
                 const formattedErrors = {};
@@ -78,7 +82,6 @@ function AddEventModal({ isOpen, onClose, tripId, minDate, maxDate, onEventAdded
             onClose={onClose} 
             title="add event"
         >
-            {/* ПРОКИДАЄМО ПОМИЛКИ В ІНПУТИ */}
             <Input 
                 label="name" name="title" placeholder="e.g. Colosseum Tour" 
                 value={form.title} onChange={handleInputChange} 

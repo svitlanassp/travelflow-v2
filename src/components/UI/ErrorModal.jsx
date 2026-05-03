@@ -11,7 +11,6 @@ function ErrorModal({
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="card error-card" onClick={e => e.stopPropagation()}>
-                {/* Можемо додати червоний акцент зверху або просто іконку */}
                 <div className="error-header">
                     <h2 className="error-title">{title}</h2>
                 </div>

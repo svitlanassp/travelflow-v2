@@ -106,7 +106,6 @@ function BudgetTab({ trip, onAddExpense, onDeleteClick, onEditClick }) {
 
                     <div className="categories-breakdown">
                         {totalSpent > 0 ? (
-                            // Якщо є витрати - малюємо рядки категорій
                             Object.entries(CATEGORY_STYLES).map(([catKey, style]) => {
                                 const amount = categoryTotals[catKey];
                                 if (amount === 0) return null; 
@@ -131,7 +130,6 @@ function BudgetTab({ trip, onAddExpense, onDeleteClick, onEditClick }) {
                                 );
                             })
                         ) : (
-                            // 👈 ОСЬ ВІН: Твій Empty State
                             <div className="empty-expenses">
                                 no spending data yet
                             </div>
