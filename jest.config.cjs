@@ -22,6 +22,9 @@ module.exports = {
     'src/components/BudgetTab/BudgetTab.jsx',
     'src/components/Widgets/NextTripWidget.jsx',
     'src/components/Widgets/MonthStrip.jsx',
+    'src/pages/LoginPage.jsx',
+    'src/pages/RegisterPage.jsx',
+    'src/pages/TripsPage.jsx',
   ],
   coverageThreshold: {
     global: { lines: 70 },

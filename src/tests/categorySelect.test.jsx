@@ -54,7 +54,6 @@ describe('CategorySelect component', () => {
     test('marks active category in dropdown', () => {
         render(<CategorySelect value="shopping" onChange={() => {}} />);
         fireEvent.click(document.querySelector('.select-trigger'));
-        // The selected-badge shows in the trigger, and in dropdown it gets 'active' class
         const activeItems = document.querySelectorAll('.select-item.active');
         expect(activeItems.length).toBeGreaterThan(0);
     });

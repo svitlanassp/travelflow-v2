@@ -40,7 +40,7 @@
     right: 0;
     background: var(--white);
     border: 1px solid var(--purple-light);
-    border-radius: 12px;
+    border-radius: var(--radius-card);
     box-shadow: var(--shadow);
     padding: 8px;
     display: flex;
