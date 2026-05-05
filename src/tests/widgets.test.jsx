@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import NextTripWidget from '../components/Widgets/NextTripWidget';
 import MonthStrip from '../components/Widgets/MonthStrip';
 
-// ─── NextTripWidget ──────────────────────────────────────────────────────────
+// ─── NextTripWidget ───
 describe('NextTripWidget', () => {
     test('renders nothing when trips is empty', () => {
         const { container } = render(<NextTripWidget trips={[]} />);
@@ -94,7 +94,7 @@ describe('NextTripWidget', () => {
     });
 });
 
-// ─── MonthStrip ───────────────────────────────────────────────────────────────
+// ─── MonthStrip ───
 describe('MonthStrip', () => {
     const mockProps = {
         trips: [],
@@ -152,7 +152,7 @@ describe('MonthStrip', () => {
     test('marks month as active if trip overlaps', () => {
         const trips = [{ id: 1, start_date: '2025-06-10', end_date: '2025-06-20' }];
         const { container } = render(<MonthStrip {...mockProps} trips={trips} selectedYear={2025} />);
-        const junPill = container.querySelectorAll('.month-pill')[5]; // june = index 5
+        const junPill = container.querySelectorAll('.month-pill')[5]; 
         expect(junPill).toHaveClass('active');
     });
 

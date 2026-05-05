@@ -68,6 +68,13 @@
     border: 1px solid rgba(0, 0, 0, 0.05);
     color: var(--text-dark);
 }
+
+.event-modal-card .input-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-dark);
+}
+
 .event-modal-card .input-field:focus {
     box-shadow: 0 0 0 2px var(--theme-main); 
 }

@@ -6,6 +6,7 @@ import AddTripModal from '../components/AddTripModal/AddTripModal';
 import ConfirmModal from '../components/UI/ConfirmModal';
 import EditTripModal from '../components/EditTripModal/EditTripModal';
 import ErrorModal from '../components/UI/ErrorModal';
+import TripChatWidget from '../components/TripChatWidget/TripChatWidget';
 import { api } from '../services/api'
 import { Auth } from '../services/auth'
 import './TripsPage.css'
@@ -208,6 +209,8 @@ function TripsPage() {
                 message={globalError} 
                 onClose={() => setGlobalError(null)} 
             />
+
+            <TripChatWidget />
 
         </div>
     )
