@@ -33,6 +33,8 @@ function TripCard({ trip, onEdit, onDelete }) {
 
     const imageUrl = getImageUrl(trip.cover_image);
 
+    const coverBackground = trip.cover_color || '#F0F0F0';
+
     return (
         <div 
             className="trip-card" 
@@ -45,11 +47,18 @@ function TripCard({ trip, onEdit, onDelete }) {
                 onDelete={onDelete}
             />
 
-            <div className="trip-card-image" style={{ backgroundColor: '#F0F0F0' }}>
-                {imageUrl && (
+            <div className="trip-card-image" style={{ backgroundColor: coverBackground }}>
+                {imageUrl ? (
                     <img src={imageUrl} alt={trip.title} />
+                ) : (
+                    trip.cover_emoji && (
+                        <div className="trip-card-emoji-cover">
+                            {trip.cover_emoji}
+                        </div>
+                    )
                 )}
             </div>
+            
             <div className="trip-card-content">
                 <h2 className="trip-card-title">{trip.title}</h2>
                 <p className="trip-card-location">{trip.city}, {trip.country}</p>
@@ -73,4 +82,4 @@ function TripCard({ trip, onEdit, onDelete }) {
     )
 }
 
-export default TripCard
+export default TripCard;

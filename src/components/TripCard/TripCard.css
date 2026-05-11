@@ -103,3 +103,13 @@
     font-weight: 600;
     margin-top: 8px;
 }
+
+.trip-card-emoji-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 56px; 
+    user-select: none;
+}
