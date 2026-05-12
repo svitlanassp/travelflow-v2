@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useDragControls } from 'framer-motion'; // 👈 Додали це
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import './TripChatWidget.css';
 
 const windowVariants = {
